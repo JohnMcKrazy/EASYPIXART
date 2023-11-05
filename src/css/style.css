@@ -852,23 +852,15 @@ BODY INPUT[type=color]:disabled {
   text-overflow: ellipsis;
 }
 
-.wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  /* background:url("./src/img/pixels.jpg") no-repeat center; */
-  background: var(--bgG);
-  background-size: cover;
-  overflow: hidden;
-}
-.wrapper .nav {
+.nav {
   position: absolute;
   width: auto;
   background: var(--nvc);
   z-index: 5;
   transition: var(--t_m);
 }
-.wrapper .nav_btn {
+
+.nav_btn {
   padding: 0.5rem;
   width: auto;
   height: 100%;
@@ -876,7 +868,7 @@ BODY INPUT[type=color]:disabled {
   justify-content: center;
   align-items: center;
 }
-.wrapper .nav_btn .icon_container {
+.nav_btn .icon_container {
   width: 2rem;
   height: 2rem;
   fill: var(--tc);
@@ -884,14 +876,15 @@ BODY INPUT[type=color]:disabled {
   justify-content: center;
   align-items: center;
 }
-.wrapper .nav_btn:hover, .wrapper .nav_btn:active, .wrapper .nav_btn:focus {
+.nav_btn:hover, .nav_btn:active, .nav_btn:focus {
   background: var(--fc);
   color: var(--tc_c);
 }
-.wrapper .nav_btn:hover .icon_container, .wrapper .nav_btn:active .icon_container, .wrapper .nav_btn:focus .icon_container {
+.nav_btn:hover .icon_container, .nav_btn:active .icon_container, .nav_btn:focus .icon_container {
   fill: var(--tc_c);
 }
-.wrapper .nav_btn_container {
+
+.nav_btn_container {
   position: absolute;
   height: var(--mb_s);
   width: auto;
@@ -902,59 +895,64 @@ BODY INPUT[type=color]:disabled {
   justify-content: center;
   align-items: center;
 }
-.wrapper .nav_content {
+
+.nav_content {
   padding: 1rem;
 }
-.wrapper .palette_nav,
-.wrapper .menu_nav {
+
+.palette_nav,
+.menu_nav {
   top: 0;
 }
-.wrapper .palette_nav {
+
+.palette_nav {
   left: 0;
   transform: translateY(-100%);
 }
-.wrapper .palette_nav .menu_btn_container {
+.palette_nav .menu_btn_container {
   left: 0;
 }
-.wrapper .palette_nav .nav_container {
+.palette_nav .nav_container {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   border-bottom: solid 0.5rem var(--fc);
 }
-.wrapper .palette_nav .nav_container .btns_container {
+.palette_nav .nav_container .btns_container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding-top: 0;
 }
-.wrapper .palette_nav .nav_container .input_control {
+.palette_nav .nav_container .input_control {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
-.wrapper .palette_nav .nav_container .input_control INPUT[type=color] {
+.palette_nav .nav_container .input_control INPUT[type=color] {
   width: 8rem;
   height: 6rem;
 }
-.wrapper .menu_nav {
+
+.menu_nav {
   right: 0;
   transform: translateY(-100%);
 }
-.wrapper .menu_nav .menu_btn_container {
+.menu_nav .menu_btn_container {
   right: 0;
 }
-.wrapper .menu_nav .nav_container {
+.menu_nav .nav_container {
   border-bottom: solid 0.5rem var(--fc);
 }
-.wrapper .menu_nav .btns_container {
+.menu_nav .btns_container {
   padding-top: 0;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
-.wrapper .swatches_nav {
+
+.swatches_nav {
   bottom: 0;
   left: 0;
   right: 0;
@@ -962,15 +960,15 @@ BODY INPUT[type=color]:disabled {
   height: auto;
   transform: translateY(100%);
 }
-.wrapper .swatches_nav .nav_container {
+.swatches_nav .nav_container {
   border-top: solid 0.5rem var(--fc);
   width: 100%;
 }
-.wrapper .swatches_nav .swatches_btn_container {
+.swatches_nav .swatches_btn_container {
   left: 0;
   top: -3rem;
 }
-.wrapper .swatches_nav .swatches_btn_container .items_counter {
+.swatches_nav .swatches_btn_container .items_counter {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -984,15 +982,25 @@ BODY INPUT[type=color]:disabled {
   color: var(--tc_c);
   font-weight: 400;
 }
-.wrapper .swatches_nav .swatch_btn:hover .items_counter {
+.swatches_nav .swatch_btn:hover .items_counter {
   background: var(--nvc);
   color: var(--tc);
 }
-.wrapper .swatches_nav .items_container {
+.swatches_nav .items_container {
   height: 7rem;
   padding: 1rem 0;
   overflow-x: scroll;
   overflow-y: hidden;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* background:url("./src/img/pixels.jpg") no-repeat center; */
+  background: var(--bgG);
+  background-size: cover;
+  overflow: hidden;
 }
 .wrapper .canvas_title {
   position: absolute;

@@ -832,6 +832,131 @@ BODY {
         text-overflow: ellipsis;
     }
 }
+
+.nav {
+    position: absolute;
+    width: auto;
+    background: var(--nvc);
+    z-index: 5;
+    transition: var(--t_m);
+    //! transform: translateY(-100%);
+}
+.nav_btn {
+    padding: 0.5rem;
+    width: auto;
+    height: 100%;
+    @include flex(center, center);
+    .icon_container {
+        width: 2rem;
+        height: 2rem;
+        fill: var(--tc);
+        @include flex(center, center);
+    }
+    &:hover,
+    &:active,
+    &:focus {
+        background: var(--fc);
+        color: var(--tc_c);
+        .icon_container {
+            fill: var(--tc_c);
+        }
+    }
+}
+.nav_btn_container {
+    position: absolute;
+    height: var(--mb_s);
+    width: auto;
+    background: var(--nvc);
+    fill: var(--tc);
+    @include flexDirection(row, center, center);
+}
+.nav_content {
+    padding: 1rem;
+}
+.palette_nav,
+.menu_nav {
+    top: 0;
+}
+.palette_nav {
+    left: 0;
+    transform: translateY(-100%);
+    .menu_btn_container {
+        left: 0;
+    }
+    .nav_container {
+        @include flexDirection(row, flex-start, flex-start);
+
+        border-bottom: solid 0.5rem var(--fc);
+        .btns_container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding-top: 0;
+        }
+        .input_control {
+            @include flexDirection(column, flex-start, center);
+            INPUT[type="color"] {
+                width: 8rem;
+                height: 6rem;
+            }
+        }
+    }
+}
+.menu_nav {
+    right: 0;
+    transform: translateY(-100%);
+    .menu_btn_container {
+        right: 0;
+    }
+    .nav_container {
+        border-bottom: solid 0.5rem var(--fc);
+    }
+    .btns_container {
+        padding-top: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+}
+.swatches_nav {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    transform: translateY(100%);
+    .nav_container {
+        border-top: solid 0.5rem var(--fc);
+        width: 100%;
+    }
+    .swatches_btn_container {
+        left: 0;
+        top: -3rem;
+        .items_counter {
+            @include flex(center, center);
+            position: absolute;
+            background: var(--fc);
+            border-radius: 50%;
+            width: 1rem;
+            height: 1rem;
+            top: 0.25rem;
+            right: 0.25rem;
+            color: var(--tc_c);
+            font-weight: 400;
+        }
+    }
+    .swatch_btn:hover {
+        .items_counter {
+            background: var(--nvc);
+            color: var(--tc);
+        }
+    }
+    .items_container {
+        height: 7rem;
+        padding: 1rem 0;
+        overflow-x: scroll;
+        overflow-y: hidden;
+    }
+}
 .wrapper {
     position: relative;
     width: 100%;
@@ -841,131 +966,6 @@ BODY {
     background-size: cover;
     overflow: hidden;
 
-    .nav {
-        position: absolute;
-        width: auto;
-        background: var(--nvc);
-        z-index: 5;
-        transition: var(--t_m);
-        //! transform: translateY(-100%);
-    }
-    .nav_btn {
-        padding: 0.5rem;
-        width: auto;
-        height: 100%;
-        @include flex(center, center);
-        .icon_container {
-            width: 2rem;
-            height: 2rem;
-            fill: var(--tc);
-            @include flex(center, center);
-        }
-        &:hover,
-        &:active,
-        &:focus {
-            background: var(--fc);
-            color: var(--tc_c);
-            .icon_container {
-                fill: var(--tc_c);
-            }
-        }
-    }
-    .nav_btn_container {
-        position: absolute;
-        height: var(--mb_s);
-        width: auto;
-        background: var(--nvc);
-        fill: var(--tc);
-        @include flexDirection(row, center, center);
-    }
-    .nav_content {
-        padding: 1rem;
-    }
-    .palette_nav,
-    .menu_nav {
-        top: 0;
-    }
-    .palette_nav {
-        left: 0;
-        transform: translateY(-100%);
-        .menu_btn_container {
-            left: 0;
-        }
-        .nav_container {
-            @include flexDirection(row, flex-start, flex-start);
-
-            border-bottom: solid 0.5rem var(--fc);
-            .btns_container {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                padding-top: 0;
-            }
-            .input_control {
-                @include flexDirection(column, flex-start, center);
-                INPUT[type="color"] {
-                    width: 8rem;
-                    height: 6rem;
-                }
-            }
-        }
-    }
-    .menu_nav {
-        right: 0;
-        transform: translateY(-100%);
-        .menu_btn_container {
-            right: 0;
-        }
-        .nav_container {
-            border-bottom: solid 0.5rem var(--fc);
-        }
-        .btns_container {
-            padding-top: 0;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-        }
-    }
-    .swatches_nav {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: auto;
-
-        transform: translateY(100%);
-        .nav_container {
-            border-top: solid 0.5rem var(--fc);
-            width: 100%;
-        }
-        .swatches_btn_container {
-            left: 0;
-            top: -3rem;
-            .items_counter {
-                @include flex(center, center);
-                position: absolute;
-                background: var(--fc);
-                border-radius: 50%;
-                width: 1rem;
-                height: 1rem;
-                top: 0.25rem;
-                right: 0.25rem;
-                color: var(--tc_c);
-                font-weight: 400;
-            }
-        }
-        .swatch_btn:hover {
-            .items_counter {
-                background: var(--nvc);
-                color: var(--tc);
-            }
-        }
-        .items_container {
-            height: 7rem;
-            padding: 1rem 0;
-            overflow-x: scroll;
-            overflow-y: hidden;
-        }
-    }
     .canvas_title {
         position: absolute;
         top: 0;
