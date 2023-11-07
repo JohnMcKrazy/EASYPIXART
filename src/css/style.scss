@@ -169,8 +169,7 @@ BODY {
     scroll-behavior: smooth;
     font-size: var(--fs);
     font-family: var(--titilliumFont);
-
-    overflow: hidden;
+    line-height: 1.2;
     IMG {
         display: block;
         width: 100%;
@@ -249,9 +248,7 @@ BODY {
     }
 }
 //! general
-.ePointer {
-    position: absolute;
-}
+
 .opening {
     position: absolute;
     width: 100%;
@@ -260,7 +257,7 @@ BODY {
     left: 0;
     background: var(--nvc_h);
     z-index: 50;
-    display: flex;
+    display: none;
     .container {
         position: absolute;
         top: 50%;
@@ -314,21 +311,21 @@ BODY {
     padding: 1rem 0;
     text-align: center;
 }
+.accent {
+    color: var(--fc);
+}
 .logo {
     height: auto;
     width: auto;
     padding: 1rem;
     font-size: var(--fs_x);
     font-family: var(--quanticoFont);
-    .accent {
-        color: var(--fc);
-    }
 }
 .label_btn {
     font-size: var(--fs_s);
 }
 .title {
-    color: var(--fc);
+    text-align: center;
 }
 .anim_btn {
     @include flex(center, center);
@@ -401,7 +398,7 @@ BODY {
 }
 .icon_container {
     width: 100%;
-    height: 100%;
+    height: auto;
     /* .icon_svg {
         fill: var(--tc);
     } */
@@ -562,7 +559,7 @@ BODY {
 .btn_container {
     width: 100%;
     height: auto;
-    padding-top: 1rem;
+    padding-top: 2rem;
 }
 .btns_container {
     @include flexDirection(row, space-between, center);
@@ -575,7 +572,7 @@ BODY {
     height: auto;
     padding: 0.5rem;
     background: var(--nvc);
-
+    justify-self: center;
     .label_item {
         color: var(--tc);
         text-align: center;
@@ -585,12 +582,11 @@ BODY {
 .window_content {
     position: absolute;
     @include flexDirection(column, flex-start, center);
-    top: 5rem;
+    top: 2rem;
     left: 50%;
     transform: translate(-50%, 0);
     width: clamp(250px, 80%, 800px);
     transition: var(--t_m);
-    max-height: calc(100% - 8rem);
     .close_btn {
         position: absolute;
         top: 0;
@@ -613,11 +609,30 @@ BODY {
     }
 
     .content_container {
+        margin-top: 2rem;
         width: 100%;
-        max-height: 100%;
+        .text_content {
+            margin-top: 1rem;
+        }
     }
     .title {
         text-align: center;
+    }
+    .alert_msg_items {
+        position: absolute;
+        width: auto;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: var(--t_m);
+        text-align: center;
+    }
+}
+.alert,
+.modal {
+    .canvas_svg {
+        padding: 0.5rem;
+        background: var(--nvc_h);
     }
 }
 .alert {
@@ -637,19 +652,33 @@ BODY {
     H1 {
         color: var(--fc);
     }
-    .refresh_alert {
+    .window_content {
         display: none;
+    }
+}
+.save_swatch_alert {
+    .swatch_container {
+        position: relative;
+        height: 10rem;
+        .label_swatch {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--nvc);
+            color: var(--tc);
+            padding: 1rem;
+        }
     }
 }
 .modal {
     display: block;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    height: 100vh;
     background: var(--bgM_g);
     background-size: cover;
     color: var(--tc_m);
@@ -660,6 +689,9 @@ BODY {
     }
     .hello_modal {
         display: flex;
+        .content_container {
+            margin-top: 1rem;
+        }
     }
 
     .config_btn {
@@ -711,35 +743,6 @@ BODY {
             grid-area: text;
         }
     }
-    .gallery_modal {
-        .gallery_container {
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-    }
-    .grid_modal {
-        .inputs_controler {
-            margin-top: 1rem;
-            width: 100%;
-            display: grid;
-            grid-template-areas:
-                "inp_num_1 check_bg"
-                "inp_num_2 check_bg";
-            row-gap: 0.5rem;
-            column-gap: 1rem;
-        }
-
-        .column_control {
-            grid-area: inp_num_1;
-        }
-        .row_control {
-            grid-area: inp_num_2;
-        }
-        .check_control {
-            grid-area: check_bg;
-        }
-    }
     .delete_modal {
         .inputs_controler {
             flex-direction: column;
@@ -756,7 +759,6 @@ BODY {
         width: 100%;
         max-width: 100%;
         height: auto;
-        max-height: 100%;
     }
     .input_control {
         margin-top: 0.5rem;
@@ -768,29 +770,26 @@ BODY {
 }
 .items_container {
     position: relative;
-    @include flexDirection(row, flex-start, flex-start);
+    @include flexDirection(row, center, flex-start);
     flex-wrap: wrap;
+    gap: 0.5rem;
     width: max-content;
     min-height: 7rem;
-    .alert_msg_items {
-        position: absolute;
-        width: auto;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        transition: var(--t_m);
-        text-align: center;
-    }
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
 }
 .canvas_container {
     height: 100%;
     width: 100%;
     @include flex(center, flex-start);
+
     .canvas_svg {
-        padding: 0.5rem;
-        background: var(--nvc_h);
         height: auto;
         max-height: 100%;
+        G {
+            stroke: var(--fc);
+        }
     }
 }
 .code_container {
@@ -832,46 +831,45 @@ BODY {
         text-overflow: ellipsis;
     }
 }
-
 .nav {
     position: absolute;
-    width: auto;
     background: var(--nvc);
     z-index: 5;
     transition: var(--t_m);
-    //! transform: translateY(-100%);
-}
-.nav_btn {
-    padding: 0.5rem;
-    width: auto;
-    height: 100%;
-    @include flex(center, center);
-    .icon_container {
-        width: 2rem;
-        height: 2rem;
-        fill: var(--tc);
+
+    .nav_btn {
+        padding: 0.5rem;
+        width: auto;
+        height: 100%;
         @include flex(center, center);
-    }
-    &:hover,
-    &:active,
-    &:focus {
-        background: var(--fc);
-        color: var(--tc_c);
         .icon_container {
-            fill: var(--tc_c);
+            width: 2rem;
+            height: 2rem;
+            fill: var(--tc);
+            @include flex(center, center);
+        }
+        &:hover,
+        &:active,
+        &:focus {
+            background: var(--fc);
+            color: var(--tc_c);
+            .icon_container {
+                fill: var(--tc_c);
+            }
         }
     }
-}
-.nav_btn_container {
-    position: absolute;
-    height: var(--mb_s);
-    width: auto;
-    background: var(--nvc);
-    fill: var(--tc);
-    @include flexDirection(row, center, center);
-}
-.nav_content {
-    padding: 1rem;
+    .nav_btn_container {
+        position: absolute;
+        height: var(--mb_s);
+        width: auto;
+        background: var(--nvc);
+        fill: var(--tc);
+        @include flexDirection(row, center, center);
+    }
+
+    .nav_content {
+        padding: 1rem;
+    }
 }
 .palette_nav,
 .menu_nav {
@@ -888,8 +886,7 @@ BODY {
 
         border-bottom: solid 0.5rem var(--fc);
         .btns_container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            @include flexDirection(column, flex-start, center);
             padding-top: 0;
         }
         .input_control {
@@ -899,6 +896,35 @@ BODY {
                 height: 6rem;
             }
         }
+
+        .btn_counter_container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-left: solid 1px var(--fc);
+            padding: 0;
+            height: 100%;
+        }
+    }
+}
+.counter_btn {
+    position: relative;
+    .items_counter {
+        @include flex(center, center);
+        position: absolute;
+        background: var(--fc);
+        border-radius: 50%;
+        width: 1rem;
+        height: 1rem;
+        top: 0.25rem;
+        right: 0.25rem;
+        color: var(--tc_c);
+        font-weight: 400;
+    }
+}
+.counter_btn:hover {
+    .items_counter {
+        background: var(--nvc);
+        color: var(--tc);
     }
 }
 .menu_nav {
@@ -915,46 +941,6 @@ BODY {
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-    }
-}
-.swatches_nav {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: auto;
-    transform: translateY(100%);
-    .nav_container {
-        border-top: solid 0.5rem var(--fc);
-        width: 100%;
-    }
-    .swatches_btn_container {
-        left: 0;
-        top: -3rem;
-        .items_counter {
-            @include flex(center, center);
-            position: absolute;
-            background: var(--fc);
-            border-radius: 50%;
-            width: 1rem;
-            height: 1rem;
-            top: 0.25rem;
-            right: 0.25rem;
-            color: var(--tc_c);
-            font-weight: 400;
-        }
-    }
-    .swatch_btn:hover {
-        .items_counter {
-            background: var(--nvc);
-            color: var(--tc);
-        }
-    }
-    .items_container {
-        height: 7rem;
-        padding: 1rem 0;
-        overflow-x: scroll;
-        overflow-y: hidden;
     }
 }
 .wrapper {
@@ -978,23 +964,44 @@ BODY {
         padding: 0.5rem;
         border-radius: 0 0 0.5rem 0.5rem;
     }
-    .main_canvas {
+    .main_canvas_container {
+        position: relative;
         padding: 3.5rem;
+        .grid_canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
     }
 }
 .swatch_item {
-    height: 4rem;
+    height: auto;
     width: 6rem;
+    background: var(--nvc);
     box-shadow: 1px 1px 1rem var(--is);
-    @include flex(center, center);
-    .label_swatch {
-        display: block;
-        width: auto;
-        height: auto;
-        text-align: center;
-        padding: 0.25rem;
-        background: var(--blackOff);
-        color: var(--whiteOff);
+    .swatch_container {
+        @include flex(center, center);
+        width: 100%;
+        height: 4rem;
+        .label_swatch {
+            display: block;
+            width: auto;
+            height: auto;
+            text-align: center;
+            padding: 0.25rem;
+            background: var(--blackOff);
+            color: var(--whiteOff);
+        }
+    }
+
+    .label_name {
+        padding: 0.5rem;
+        color: var(--tc);
     }
 }
 .inputs_controler {
@@ -1033,6 +1040,11 @@ BODY {
         color: var(--tc) !important;
         background: var(--nvc) !important;
     }
+}
+.demo_pixel,
+.main_pixel {
+    stroke-width: 0.01;
+    stroke: var(--fc);
 }
 .main_pixel {
     cursor: pointer;

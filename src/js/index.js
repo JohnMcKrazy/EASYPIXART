@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const createSvg = (svgName, xPix, yPix) => `<svg class="${svgName} canvas_svg icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${xPix} ${yPix}"></svg>`;
     const createSvgTitle = (svgName) => `<title>${svgName}</title>`;
     const createColorVar = (varName, varValue) => `.${varName}{fill:${varValue}}`;
-    const createShadowSvgGroup = (fill = "transparent") => `<g fill="${fill}" stroke="whitesmoke" stroke-width="0.05">`;
+    const createDemoSvgGroup = (fill = "transparent") => `<g fill="${fill}">`;
     const createPixel = (xPos, yPos, className, fill) => `<rect class="${className}" width="1" height="1" x="${xPos}" y="${yPos}" fill="${fill}"></rect>`;
-
+    const createDiv = (tag) => {
+        return `<div class="${tag}"></div>`;
+    };
     let storageContent;
     const close = "close";
     const open = "open";
@@ -39,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         navsConfig: {
             palette_nav: "translateY(-100%)",
             menu_nav: "translateY(-100%)",
-            swatches_nav: "translateY(100%)",
         },
         btnActive: "",
         navOpen: "translateY(0)",
@@ -59,14 +60,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const BODY = selector("body");
     const modal = selector(".modal");
     const alert = selector(".alert");
-    const swatchesNav = selector(".swatches_nav");
-    const swatchesContainer = selector(".swatches_container");
+    const modalSwatchesContainer = selector(".modal_swatches_container");
+    const alertSwatchesContainer = selector(".alert_swatches_container");
     const swatchesEmptylabel = selector(".swatches_msg");
     const galleryContainer = selector(".gallery_container");
     const galleryEmptylabel = selector(".gallery_msg");
     const saveArtNameInput = selector(".inp_save_art_name");
     const columnsPixelInput = selector(".columns_pixel");
     const rowsPixelInput = selector(".rows_pixel");
+    const gridInput = selector(".grid_value");
     const createArtNameInput = selector(".inp_create_art_name");
     const colorBgPixelInput = selector(".pixel_bg_check");
     const colorPaletteInput = selector(".palette_color");
@@ -212,18 +214,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
-    const createSwatch = (color) => {
+    const createSwatch = (item) => {
+        console.log(item);
         const thisTemp = swatchTemplate.cloneNode(true);
-        const thisColor = thisTemp.querySelector(".swatch_item");
-        thisColor.setAttribute("data-color", color);
-        thisColor.style.background = color;
-        const thisColorLabel = thisTemp.querySelector(".label_swatch");
-        thisColorLabel.textContent = color;
-        swatchSavesFragment.append(thisColor);
+        const thisBtn = thisTemp.querySelector(".swatch_item");
+        const swatchContainer = thisTemp.querySelector(".swatch_container");
+
+        const colorLabel = thisTemp.querySelector(".label_swatch");
+        const colorName = thisTemp.querySelector(".label_name");
+        thisBtn.setAttribute("data-color", item.hexa_color);
+        swatchContainer.style.background = item.hexa_color;
+        colorLabel.textContent = item.hexa_color;
+        colorName.textContent = item.name;
+        console.log(thisBtn);
+        swatchSavesFragment.append(thisBtn);
     };
     const swatchesBtnsAction = () => {
         selectorAll(".swatch_item").forEach((itemColor) => {
             itemColor.addEventListener("click", () => {
+                modalWindowActions(close, "swatches_modal");
+                pageActions.modal = close;
                 const thisColor = itemColor.getAttribute("data-color");
                 console.log(thisColor);
                 colorPaletteInput.value = thisColor;
@@ -234,25 +244,26 @@ document.addEventListener("DOMContentLoaded", () => {
         let pixels = "";
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
-                /* console.log(createShadowPixel(x, y, "shadow_pixel")); */
+                /* console.log(createDemoPixel(x, y, "demo_pixel")); */
                 pixels += createPixel(x, y, pixelsName, fill);
             }
         }
         return pixels;
     };
-    const createShadowCanvas = () => {
+
+    const createDemoCanvas = () => {
         let thisPixels = "";
         const currentColumns = columnsPixelInput.value;
         const currentRows = rowsPixelInput.value;
 
-        const createShadow = createSvg("shadow_svg", currentColumns, currentRows);
-        selector(".shadow_canvas").innerHTML = createShadow;
-        const shadowSvg = selector(".shadow_svg");
+        const createDemo = createSvg("demo_svg", currentColumns, currentRows);
+        selector(".demo_canvas").innerHTML = createDemo;
+        const demoSvg = selector(".demo_svg");
 
-        thisPixels = createShadowSvgGroup();
-        const newPixels = createPixels(currentColumns, currentRows, "shadow_pixel", "transparent");
+        thisPixels = createDemoSvgGroup();
+        const newPixels = createPixels(currentColumns, currentRows, "demo_pixel", "transparent");
         thisPixels += newPixels + "</g>";
-        shadowSvg.innerHTML = thisPixels;
+        demoSvg.innerHTML = thisPixels;
     };
     const createMainCanvas = (artName, columns, rows, fill) => {
         pageActions.artColumns = columns;
@@ -357,17 +368,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             storageContent = pageData;
                             return;
                         } else if (check.checked && checkStorage !== "all") {
-                            storageContent[checkStorage] = [];
+                            storageContent[checkStorage] = pageData[checkStorage];
                             if (checkStorage === "gallery" && check.checked) {
                                 deleteChildElements(galleryContainer);
-                                galleryContainer.innerHTML = "<span class='alert_msg_items gallery_msg'>Vacio</span>";
                                 console.log(checkStorage);
                             } else if (checkStorage === "swatches" && check.checked) {
                                 colorItemsCounter.textContent = storageContent[checkStorage].length;
                                 swatchesEmptylabel.style.display = block;
                                 deleteChildElements(swatchSavesFragment);
-                                deleteChildElements(swatchesContainer);
-                                galleryContainer.innerHTML = "<span class='alert_msg_items swatches_msg'>Vacio</span>";
                                 console.log(checkStorage);
                             }
                         }
@@ -382,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 case "accept_refresh":
                     alertWindowActions(close, btnModal);
-                    if (mainSvg) {
+                    if (selector(".main_svg")) {
                         const startColor = pageActions.pixel_start_color;
                         selectorAll(".main_pixel").forEach((pixel) => {
                             pixel.setAttribute("fill", startColor);
@@ -426,6 +434,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "download_art":
                     modalWindowActions(close, "save_modal");
                     pageActions.modal = close;
+                    break;
+                case "accept_save_swatch":
+                    const storageSwatches = storageContent.swatches;
+                    const pickerValue = colorPaletteInput.value;
+
+                    const swatchName = selector(".inp_save_swatch_name").value;
+                    console.log(pickerValue);
+
+                    storageSwatches.push({
+                        name: swatchName,
+                        hexa_color: pickerValue,
+                    });
+                    colorItemsCounter.textContent = storageSwatches.length;
+                    console.log(storageContent, storageSwatches);
+                    saveStorage();
+                    alertWindowActions(close, "save_swatch_alert");
                     break;
             }
         });
@@ -485,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
             selector(".menu_btn").classList.remove("active");
             switch (btnName) {
                 case "create_btn":
-                    createShadowCanvas();
+                    createDemoCanvas();
                     break;
                 case "save_btn":
                     const artColumns = pageActions.artColumns;
@@ -562,15 +586,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     pageActions.pixels_to_save = { pixels: thisPixels };
                     break;
                 case "gallery_btn":
-                    deleteChildElements(galleryContainer);
-                    galleryContainer.innerHTML = "<span class='alert_msg_items gallery_msg'>Vacio</span>";
                     updateStorage();
                     const currentGallery = storageContent.gallery;
                     if (currentGallery.length >= 1) {
-                        selector(".gallery_msg").style.display = none;
+                        deleteChildElements(galleryContainer);
+                        galleryEmptylabel.style.display = none;
                         currentGallery.forEach((artItem) => {
-                            console.log(artItem);
-
+                            /* console.log(artItem); */
                             let thisPixels = "";
                             artItem.pixels.forEach((pixel) => {
                                 thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
@@ -591,9 +613,27 @@ document.addEventListener("DOMContentLoaded", () => {
                             }, 500);
                         });
                     } else {
-                        selector(".gallery_msg").style.display = block;
+                        galleryEmptylabel.style.display = block;
                     }
-
+                    break;
+                case "swatch_btn":
+                    updateStorage();
+                    const storageSwatches = storageContent.swatches;
+                    console.log(storageSwatches);
+                    if (storageSwatches.length >= 1) {
+                        deleteChildElements(modalSwatchesContainer);
+                        selector(".swatches_modal").querySelector(".swatches_msg").style.display = none;
+                        storageSwatches.forEach((color) => {
+                            createSwatch(color);
+                        });
+                        modalSwatchesContainer.append(swatchSavesFragment);
+                        setTimeout(() => swatchesBtnsAction(), 200);
+                    } else {
+                        deleteChildElements(modalSwatchesContainer);
+                        selector(".swatches_modal").querySelector(".swatches_msg").style.display = block;
+                    }
+                    break;
+                case "grid_btn":
                     break;
             }
         });
@@ -613,7 +653,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-    selectorAll(".number_btn").forEach((btn) => {
+    selectorAll(".pixels_number_btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             const btnInput = btn.getAttribute("data-input");
             const btnRef = btn.getAttribute("ref");
@@ -626,7 +666,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 thisInput.value = parseInt(thisInput.value) - 1;
             }
 
-            createShadowCanvas();
+            createDemoCanvas();
+        });
+    });
+    selectorAll(".grid_number_btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const btnInput = btn.getAttribute("data-input");
+            const btnRef = btn.getAttribute("ref");
+
+            const thisInput = selector(`.${btnInput}`);
+            console.log(btnInput, btnRef);
+            if (btnRef === "add") {
+                thisInput.value = parseInt(thisInput.value) + 1;
+            } else if (btnRef === "subtract") {
+                thisInput.value = parseInt(thisInput.value) - 1;
+            }
         });
     });
     selectorAll(".close_btn").forEach((btn) => {
@@ -637,20 +691,19 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(btnRef);
             console.log(btnName);
             console.log(btnModal);
-            if (btnModal === "alert") {
+            if (btnRef === "alert") {
                 console.log("close alert actions");
                 alertWindowActions(close, btnModal);
-            } else {
+            } else if (btnRef === "modal") {
+                console.log("close modal actions");
                 modalWindowActions(close, btnModal);
-
-                console.log(btnModal);
             }
         });
     });
     selectorAll(".input_number").forEach((input) => {
         input.addEventListener("input", () => {
-            /* console.log(input.value); */
-            createShadowCanvas();
+            console.log(input.value);
+            createDemoCanvas();
         });
     });
     selectorAll(".palette_action_btn").forEach((btn) => {
@@ -659,27 +712,59 @@ document.addEventListener("DOMContentLoaded", () => {
             const btnModal = btn.getAttribute("data-modal");
             switch (btnName) {
                 case "save_swatch":
+                case "swatch_btn":
+                case "refresh_btn":
                     updateStorage();
-                    const storageSwatches = storageContent.swatches;
+            }
+
+            const storageSwatches = storageContent.swatches;
+            switch (btnName) {
+                case "save_swatch":
                     const pickerValue = colorPaletteInput.value;
+                    const swatchName = selector(".inp_save_swatch_name").value;
                     console.log(pickerValue);
-                    if (!storageSwatches.includes(pickerValue)) {
-                        storageSwatches.push(pickerValue);
-                        createSwatch(pickerValue);
+
+                    if (storageSwatches.length >= 1) {
+                        const search = storageSwatches.filter((item) => item.hexa_color === pickerValue);
+                        console.log(search);
+                        if (search.length === 0) {
+                            alertWindowActions(open, btnModal);
+                            selector(".save_swatch_alert").querySelector(".swatch_container").style.background = colorPaletteInput.value;
+                            selector(".save_swatch_alert").querySelector(".swatch_container").querySelector(".label_swatch").textContent = colorPaletteInput.value;
+                        } else if (search.length >= 1) {
+                            alertWindowActions(open, "swatch_alert");
+                            console.log("tienes repetido este color");
+                        }
+                    } else {
+                        storageSwatches.push({
+                            name: swatchName,
+                            hexa_color: pickerValue,
+                        });
                         colorItemsCounter.textContent = storageSwatches.length;
                         console.log(storageContent, storageSwatches);
                         saveStorage();
-                        if (storageSwatches.length === 1) {
-                            animTranform(swatchesNav, "translateY(100%)", "translateY(0)");
-                            swatchesEmptylabel.style.display = none;
-                            swatchesBtnsAction();
-                            setTimeout(() => {
-                                animTranform(swatchesNav, "translateY(0)", "translateY(100%)");
-                            }, 3000);
-                        }
+                        alertWindowActions(close, "save_swatch_alert");
                     }
-                    swatchesContainer.append(swatchSavesFragment);
-                    swatchesBtnsAction();
+
+                    break;
+                case "swatch_btn":
+                    console.log(storageSwatches);
+                    alertWindowActions(open, btnModal);
+                    if (storageSwatches.length >= 1) {
+                        console.log("con swatches");
+                        deleteChildElements(alertSwatchesContainer);
+                        selector(".swatches_alert").querySelector(".swatches_msg").style.display = none;
+                        storageSwatches.forEach((color) => {
+                            createSwatch(color);
+                        });
+                        alertSwatchesContainer.append(swatchSavesFragment);
+                        setTimeout(() => swatchesBtnsAction(), 200);
+                    } else {
+                        console.log("sin swatches");
+
+                        deleteChildElements(alertSwatchesContainer);
+                        selector(".swatches_alert").querySelector(".swatches_msg").style.display = block;
+                    }
                     break;
                 case "draw_btn":
                     if (selector(`.${btnName}`).querySelector(".radio_input").checked && selector(".main_svg")) {
@@ -735,6 +820,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 case "refresh_btn":
                     console.log(btnName);
+                    console.log(btnModal);
                     console.log(storageContent.alerts.refresh_alert);
                     if (storageContent.alerts.refresh_alert === none) {
                         alertWindowActions(open, btnModal);
@@ -774,13 +860,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const storageSwatches = storageContent.swatches;
 
             if (storageSwatches.length >= 1) {
-                storageSwatches.forEach((color) => {
-                    createSwatch(color);
-                    setTimeout(() => swatchesBtnsAction(), 200);
-                });
                 colorItemsCounter.textContent = storageSwatches.length;
-                swatchesEmptylabel.style.display = none;
-                swatchesContainer.append(swatchSavesFragment);
             }
             if (storageContent.intro.checkbox_status === "skip") {
                 modalWindowActions(close, "hello_modal");
@@ -795,7 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => (openening.style.display = none), 1200);
         }, 4000);
     };
-    closeOpening();
+    /* closeOpening(); */
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
 
     const themeBtn = selector(".theme_btn");

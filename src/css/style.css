@@ -155,7 +155,7 @@ BODY {
   scroll-behavior: smooth;
   font-size: var(--fs);
   font-family: var(--titilliumFont);
-  overflow: hidden;
+  line-height: 1.2;
 }
 BODY IMG {
   display: block;
@@ -234,10 +234,6 @@ BODY INPUT[type=color]:disabled {
   filter: grayscale(0.8);
 }
 
-.ePointer {
-  position: absolute;
-}
-
 .opening {
   position: absolute;
   width: 100%;
@@ -246,7 +242,7 @@ BODY INPUT[type=color]:disabled {
   left: 0;
   background: var(--nvc_h);
   z-index: 50;
-  display: flex;
+  display: none;
 }
 .opening .container {
   position: absolute;
@@ -311,6 +307,10 @@ BODY INPUT[type=color]:disabled {
   text-align: center;
 }
 
+.accent {
+  color: var(--fc);
+}
+
 .logo {
   height: auto;
   width: auto;
@@ -318,16 +318,13 @@ BODY INPUT[type=color]:disabled {
   font-size: var(--fs_x);
   font-family: var(--quanticoFont);
 }
-.logo .accent {
-  color: var(--fc);
-}
 
 .label_btn {
   font-size: var(--fs_s);
 }
 
 .title {
-  color: var(--fc);
+  text-align: center;
 }
 
 .anim_btn {
@@ -403,7 +400,7 @@ BODY INPUT[type=color]:disabled {
 
 .icon_container {
   width: 100%;
-  height: 100%;
+  height: auto;
   /* .icon_svg {
       fill: var(--tc);
   } */
@@ -574,7 +571,7 @@ BODY INPUT[type=color]:disabled {
 .btn_container {
   width: 100%;
   height: auto;
-  padding-top: 1rem;
+  padding-top: 2rem;
 }
 
 .btns_container {
@@ -595,6 +592,7 @@ BODY INPUT[type=color]:disabled {
   height: auto;
   padding: 0.5rem;
   background: var(--nvc);
+  justify-self: center;
 }
 .gallery_item .label_item {
   color: var(--tc);
@@ -608,12 +606,11 @@ BODY INPUT[type=color]:disabled {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  top: 5rem;
+  top: 2rem;
   left: 50%;
   transform: translate(-50%, 0);
   width: clamp(250px, 80%, 800px);
   transition: var(--t_m);
-  max-height: calc(100% - 8rem);
 }
 .window_content .close_btn {
   position: absolute;
@@ -634,11 +631,29 @@ BODY INPUT[type=color]:disabled {
   fill: var(--tc_c);
 }
 .window_content .content_container {
+  margin-top: 2rem;
   width: 100%;
-  max-height: 100%;
+}
+.window_content .content_container .text_content {
+  margin-top: 1rem;
 }
 .window_content .title {
   text-align: center;
+}
+.window_content .alert_msg_items {
+  position: absolute;
+  width: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: var(--t_m);
+  text-align: center;
+}
+
+.alert .canvas_svg,
+.modal .canvas_svg {
+  padding: 0.5rem;
+  background: var(--nvc_h);
 }
 
 .alert {
@@ -659,19 +674,32 @@ BODY INPUT[type=color]:disabled {
 .alert H1 {
   color: var(--fc);
 }
-.alert .refresh_alert {
+.alert .window_content {
   display: none;
+}
+
+.save_swatch_alert .swatch_container {
+  position: relative;
+  height: 10rem;
+}
+.save_swatch_alert .swatch_container .label_swatch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--nvc);
+  color: var(--tc);
+  padding: 1rem;
 }
 
 .modal {
   display: block;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 100vh;
   background: var(--bgM_g);
   background-size: cover;
   color: var(--tc_m);
@@ -683,6 +711,9 @@ BODY INPUT[type=color]:disabled {
 }
 .modal .hello_modal {
   display: flex;
+}
+.modal .hello_modal .content_container {
+  margin-top: 1rem;
 }
 .modal .config_btn {
   width: 100%;
@@ -725,29 +756,6 @@ BODY INPUT[type=color]:disabled {
 .modal .create_modal .text_control {
   grid-area: text;
 }
-.modal .gallery_modal .gallery_container {
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-}
-.modal .grid_modal .inputs_controler {
-  margin-top: 1rem;
-  width: 100%;
-  display: grid;
-  grid-template-areas: "inp_num_1 check_bg" "inp_num_2 check_bg";
-  row-gap: 0.5rem;
-  -moz-column-gap: 1rem;
-       column-gap: 1rem;
-}
-.modal .grid_modal .column_control {
-  grid-area: inp_num_1;
-}
-.modal .grid_modal .row_control {
-  grid-area: inp_num_2;
-}
-.modal .grid_modal .check_control {
-  grid-area: check_bg;
-}
 .modal .delete_modal .inputs_controler {
   flex-direction: column;
   align-items: flex-start;
@@ -765,7 +773,6 @@ BODY INPUT[type=color]:disabled {
   width: 100%;
   max-width: 100%;
   height: auto;
-  max-height: 100%;
 }
 .modal .input_control {
   margin-top: 0.5rem;
@@ -779,21 +786,16 @@ BODY INPUT[type=color]:disabled {
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+  gap: 0.5rem;
   width: -moz-max-content;
   width: max-content;
   min-height: 7rem;
-}
-.items_container .alert_msg_items {
-  position: absolute;
-  width: auto;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transition: var(--t_m);
-  text-align: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .canvas_container {
@@ -804,10 +806,11 @@ BODY INPUT[type=color]:disabled {
   align-items: flex-start;
 }
 .canvas_container .canvas_svg {
-  padding: 0.5rem;
-  background: var(--nvc_h);
   height: auto;
   max-height: 100%;
+}
+.canvas_container .canvas_svg G {
+  stroke: var(--fc);
 }
 
 .code_container {
@@ -854,13 +857,11 @@ BODY INPUT[type=color]:disabled {
 
 .nav {
   position: absolute;
-  width: auto;
   background: var(--nvc);
   z-index: 5;
   transition: var(--t_m);
 }
-
-.nav_btn {
+.nav .nav_btn {
   padding: 0.5rem;
   width: auto;
   height: 100%;
@@ -868,7 +869,7 @@ BODY INPUT[type=color]:disabled {
   justify-content: center;
   align-items: center;
 }
-.nav_btn .icon_container {
+.nav .nav_btn .icon_container {
   width: 2rem;
   height: 2rem;
   fill: var(--tc);
@@ -876,15 +877,14 @@ BODY INPUT[type=color]:disabled {
   justify-content: center;
   align-items: center;
 }
-.nav_btn:hover, .nav_btn:active, .nav_btn:focus {
+.nav .nav_btn:hover, .nav .nav_btn:active, .nav .nav_btn:focus {
   background: var(--fc);
   color: var(--tc_c);
 }
-.nav_btn:hover .icon_container, .nav_btn:active .icon_container, .nav_btn:focus .icon_container {
+.nav .nav_btn:hover .icon_container, .nav .nav_btn:active .icon_container, .nav .nav_btn:focus .icon_container {
   fill: var(--tc_c);
 }
-
-.nav_btn_container {
+.nav .nav_btn_container {
   position: absolute;
   height: var(--mb_s);
   width: auto;
@@ -895,8 +895,7 @@ BODY INPUT[type=color]:disabled {
   justify-content: center;
   align-items: center;
 }
-
-.nav_content {
+.nav .nav_content {
   padding: 1rem;
 }
 
@@ -920,8 +919,10 @@ BODY INPUT[type=color]:disabled {
   border-bottom: solid 0.5rem var(--fc);
 }
 .palette_nav .nav_container .btns_container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   padding-top: 0;
 }
 .palette_nav .nav_container .input_control {
@@ -933,6 +934,36 @@ BODY INPUT[type=color]:disabled {
 .palette_nav .nav_container .input_control INPUT[type=color] {
   width: 8rem;
   height: 6rem;
+}
+.palette_nav .nav_container .btn_counter_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-left: solid 1px var(--fc);
+  padding: 0;
+  height: 100%;
+}
+
+.counter_btn {
+  position: relative;
+}
+.counter_btn .items_counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: var(--fc);
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  top: 0.25rem;
+  right: 0.25rem;
+  color: var(--tc_c);
+  font-weight: 400;
+}
+
+.counter_btn:hover .items_counter {
+  background: var(--nvc);
+  color: var(--tc);
 }
 
 .menu_nav {
@@ -950,47 +981,6 @@ BODY INPUT[type=color]:disabled {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-}
-
-.swatches_nav {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: auto;
-  transform: translateY(100%);
-}
-.swatches_nav .nav_container {
-  border-top: solid 0.5rem var(--fc);
-  width: 100%;
-}
-.swatches_nav .swatches_btn_container {
-  left: 0;
-  top: -3rem;
-}
-.swatches_nav .swatches_btn_container .items_counter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  background: var(--fc);
-  border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  top: 0.25rem;
-  right: 0.25rem;
-  color: var(--tc_c);
-  font-weight: 400;
-}
-.swatches_nav .swatch_btn:hover .items_counter {
-  background: var(--nvc);
-  color: var(--tc);
-}
-.swatches_nav .items_container {
-  height: 7rem;
-  padding: 1rem 0;
-  overflow-x: scroll;
-  overflow-y: hidden;
 }
 
 .wrapper {
@@ -1014,19 +1004,35 @@ BODY INPUT[type=color]:disabled {
   padding: 0.5rem;
   border-radius: 0 0 0.5rem 0.5rem;
 }
-.wrapper .main_canvas {
+.wrapper .main_canvas_container {
+  position: relative;
   padding: 3.5rem;
+}
+.wrapper .main_canvas_container .grid_canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .swatch_item {
-  height: 4rem;
+  height: auto;
   width: 6rem;
+  background: var(--nvc);
   box-shadow: 1px 1px 1rem var(--is);
+}
+.swatch_item .swatch_container {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 4rem;
 }
-.swatch_item .label_swatch {
+.swatch_item .swatch_container .label_swatch {
   display: block;
   width: auto;
   height: auto;
@@ -1034,6 +1040,10 @@ BODY INPUT[type=color]:disabled {
   padding: 0.25rem;
   background: var(--blackOff);
   color: var(--whiteOff);
+}
+.swatch_item .label_name {
+  padding: 0.5rem;
+  color: var(--tc);
 }
 
 .inputs_controler {
@@ -1078,6 +1088,12 @@ BODY INPUT[type=color]:disabled {
 .active .items_counter {
   color: var(--tc) !important;
   background: var(--nvc) !important;
+}
+
+.demo_pixel,
+.main_pixel {
+  stroke-width: 0.01;
+  stroke: var(--fc);
 }
 
 .main_pixel {
