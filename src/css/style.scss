@@ -614,8 +614,6 @@ BODY {
     .content_container {
         margin-top: 2rem;
         /* height: calc(100% - 6rem); */
-        overflow-y: auto;
-        overflow-x: hidden;
         .text_content {
             margin-top: 1rem;
         }
@@ -635,6 +633,15 @@ BODY {
 }
 .alert,
 .modal {
+    position: fixed;
+    .window_content {
+        height: calc(100vh - 3rem);
+        .items_container {
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(100vh - 12rem);
+        }
+    }
     .canvas_svg {
         padding: 0.5rem;
         background: var(--nvc_h);
@@ -642,7 +649,6 @@ BODY {
 }
 .alert {
     display: none;
-    position: absolute;
     background: var(--nvc_h);
     background-size: cover;
     width: 100%;
@@ -678,7 +684,6 @@ BODY {
 }
 .modal {
     display: block;
-    position: absolute;
     top: 0;
     left: 0;
     right: 0;

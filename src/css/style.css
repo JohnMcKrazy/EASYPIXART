@@ -636,8 +636,6 @@ BODY INPUT[type=color]:disabled {
 .window_content .content_container {
   margin-top: 2rem;
   /* height: calc(100% - 6rem); */
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 .window_content .content_container .text_content {
   margin-top: 1rem;
@@ -655,6 +653,20 @@ BODY INPUT[type=color]:disabled {
   text-align: center;
 }
 
+.alert,
+.modal {
+  position: fixed;
+}
+.alert .window_content,
+.modal .window_content {
+  height: calc(100vh - 3rem);
+}
+.alert .window_content .items_container,
+.modal .window_content .items_container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 12rem);
+}
 .alert .canvas_svg,
 .modal .canvas_svg {
   padding: 0.5rem;
@@ -663,7 +675,6 @@ BODY INPUT[type=color]:disabled {
 
 .alert {
   display: none;
-  position: absolute;
   background: var(--nvc_h);
   background-size: cover;
   width: 100%;
@@ -699,7 +710,6 @@ BODY INPUT[type=color]:disabled {
 
 .modal {
   display: block;
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
