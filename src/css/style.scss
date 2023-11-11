@@ -588,6 +588,7 @@ BODY {
     min-width: 250px;
     width: 90%;
     max-width: 600px;
+    /* height: calc(100vh - 2rem); */
     transition: var(--t_m);
     .close_btn {
         position: absolute;
@@ -612,7 +613,9 @@ BODY {
 
     .content_container {
         margin-top: 2rem;
-        width: 100%;
+        /* height: calc(100% - 6rem); */
+        overflow-y: auto;
+        overflow-x: hidden;
         .text_content {
             margin-top: 1rem;
         }
@@ -679,16 +682,18 @@ BODY {
     top: 0;
     left: 0;
     right: 0;
-    height: 100%;
+    min-height: 100%;
+    height: fit-content;
     width: 100%;
     background: var(--bgM_g);
     background-size: cover;
     color: var(--tc_m);
     transition: var(--t_m);
     z-index: 9;
+    overflow-x: hidden;
+    overflow-y: auto;
     .window_content {
         display: none;
-        height: 100%;
     }
     .hello_modal {
         display: flex;
@@ -734,15 +739,26 @@ BODY {
             grid-area: check_bg;
         }
 
-        .create_canvas {
-            height: auto;
-            min-height: 20rem;
+        .demo_canvas_container {
+            max-height: 50vh;
+            min-height: 5rem;
+            .icon_container {
+                max-height: 50vh;
+                min-height: 5rem;
+                .icon_svg {
+                    max-height: 50vh;
+                    min-height: 5rem;
+                }
+            }
         }
         .checkbox_control {
             padding-top: 0.5rem;
         }
         .text_control {
             grid-area: text;
+        }
+        .btns_container {
+            margin-bottom: 2rem;
         }
     }
     .delete_modal {
@@ -760,6 +776,7 @@ BODY {
     .canvas_container {
         width: 100%;
         max-width: 100%;
+        height: auto;
     }
     .input_control {
         margin-top: 0.5rem;
@@ -781,7 +798,6 @@ BODY {
     margin-top: 1rem;
 }
 .canvas_container {
-    height: 100vh;
     width: 100%;
     .icon_container {
         @include flex(center, center);
@@ -948,7 +964,7 @@ BODY {
     background: var(--bgG);
     background-size: cover;
 
-    .canvas_title {
+    .canvas_title_container {
         position: absolute;
         top: 0;
         left: 50%;
@@ -959,20 +975,14 @@ BODY {
         min-height: 1rem;
         padding: 0.5rem;
         border-radius: 0 0 0.5rem 0.5rem;
+        .canvas_title {
+            font-size: var(--fs_s);
+        }
     }
     .main_canvas_container {
+        height: 100vh;
         position: relative;
         padding: 3.5rem;
-        .grid_canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
     }
 }
 .swatch_item {
