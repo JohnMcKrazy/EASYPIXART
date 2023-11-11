@@ -165,7 +165,7 @@ BODY {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     scroll-behavior: smooth;
     font-size: var(--fs);
     font-family: var(--titilliumFont);
@@ -251,7 +251,7 @@ BODY {
 
 .opening {
     position: absolute;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
@@ -585,7 +585,9 @@ BODY {
     top: 2rem;
     left: 50%;
     transform: translate(-50%, 0);
-    width: clamp(250px, 80%, 800px);
+    min-width: 250px;
+    width: 90%;
+    max-width: 600px;
     transition: var(--t_m);
     .close_btn {
         position: absolute;
@@ -677,7 +679,7 @@ BODY {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: 100%;
     width: 100%;
     background: var(--bgM_g);
     background-size: cover;
@@ -686,6 +688,7 @@ BODY {
     z-index: 9;
     .window_content {
         display: none;
+        height: 100%;
     }
     .hello_modal {
         display: flex;
@@ -732,7 +735,6 @@ BODY {
         }
 
         .create_canvas {
-            width: 100%;
             height: auto;
             min-height: 20rem;
         }
@@ -758,7 +760,6 @@ BODY {
     .canvas_container {
         width: 100%;
         max-width: 100%;
-        height: auto;
     }
     .input_control {
         margin-top: 0.5rem;
@@ -780,17 +781,15 @@ BODY {
     margin-top: 1rem;
 }
 .canvas_container {
-    height: 100%;
+    height: 100vh;
     width: 100%;
-    @include flex(center, flex-start);
-
-    .canvas_svg {
+    .icon_container {
+        @include flex(center, center);
+    }
+    /* .canvas_svg {
         height: auto;
         max-height: 100%;
-        G {
-            stroke: var(--fc);
-        }
-    }
+    } */
 }
 .code_container {
     background: var(--nvc_h);
@@ -823,10 +822,9 @@ BODY {
     .svg_code {
         display: block;
         padding: 1rem;
-        overflow: hidden;
-        text-wrap: wrap;
         color: var(--midGray);
         overflow: hidden;
+        text-wrap: wrap;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
@@ -944,13 +942,11 @@ BODY {
     }
 }
 .wrapper {
-    position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     /* background:url("./src/img/pixels.jpg") no-repeat center; */
     background: var(--bgG);
     background-size: cover;
-    overflow: hidden;
 
     .canvas_title {
         position: absolute;

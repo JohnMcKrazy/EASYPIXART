@@ -22,7 +22,152 @@ document.addEventListener("DOMContentLoaded", () => {
             checkbox_status: "",
         },
         theme: "dark_theme",
-        swatches: [],
+        swatches: [
+            {
+                name: "verde limon",
+                hexa_color: "#00cc77",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#5ddfa9",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64ddab",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64dddb",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#d564dd",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#dd6499",
+            },
+            {
+                name: "verde limon",
+                hexa_color: "#00cc77",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#5ddfa9",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64ddab",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64dddb",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#d564dd",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#dd6499",
+            },
+            {
+                name: "verde limon",
+                hexa_color: "#00cc77",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#5ddfa9",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64ddab",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64dddb",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#d564dd",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#dd6499",
+            },
+            {
+                name: "verde limon",
+                hexa_color: "#00cc77",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#5ddfa9",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64ddab",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64dddb",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#d564dd",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#dd6499",
+            },
+            {
+                name: "verde limon",
+                hexa_color: "#00cc77",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#5ddfa9",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64ddab",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64dddb",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#d564dd",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#dd6499",
+            },
+            {
+                name: "verde limon",
+                hexa_color: "#00cc77",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#5ddfa9",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64ddab",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#64dddb",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#d564dd",
+            },
+            {
+                name: "New Swatch",
+                hexa_color: "#dd6499",
+            },
+        ],
         gallery: [],
         alerts: {
             refresh_alert: none,
@@ -215,18 +360,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
     const createSwatch = (item) => {
-        console.log(item);
         const thisTemp = swatchTemplate.cloneNode(true);
         const thisBtn = thisTemp.querySelector(".swatch_item");
         const swatchContainer = thisTemp.querySelector(".swatch_container");
-
         const colorLabel = thisTemp.querySelector(".label_swatch");
         const colorName = thisTemp.querySelector(".label_name");
         thisBtn.setAttribute("data-color", item.hexa_color);
         swatchContainer.style.background = item.hexa_color;
         colorLabel.textContent = item.hexa_color;
         colorName.textContent = item.name;
-        console.log(thisBtn);
         swatchSavesFragment.append(thisBtn);
     };
     const swatchesBtnsAction = () => {
@@ -449,7 +591,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     colorItemsCounter.textContent = storageSwatches.length;
                     console.log(storageContent, storageSwatches);
                     saveStorage();
-                    alertWindowActions(close, "save_swatch_alert");
+                    alertWindowActions(close, btnModal);
+                    break;
+                case "swatch_exist":
+                    alertWindowActions(close, btnModal);
                     break;
             }
         });
@@ -723,7 +868,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const pickerValue = colorPaletteInput.value;
                     const swatchName = selector(".inp_save_swatch_name").value;
                     console.log(pickerValue);
-
+                    console.log(storageSwatches.length);
                     if (storageSwatches.length >= 1) {
                         const search = storageSwatches.filter((item) => item.hexa_color === pickerValue);
                         console.log(search);
@@ -736,14 +881,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.log("tienes repetido este color");
                         }
                     } else {
-                        storageSwatches.push({
-                            name: swatchName,
-                            hexa_color: pickerValue,
-                        });
-                        colorItemsCounter.textContent = storageSwatches.length;
-                        console.log(storageContent, storageSwatches);
-                        saveStorage();
-                        alertWindowActions(close, "save_swatch_alert");
+                        alertWindowActions(open, btnModal);
+                        selector(".save_swatch_alert").querySelector(".swatch_container").style.background = colorPaletteInput.value;
+                        selector(".save_swatch_alert").querySelector(".swatch_container").querySelector(".label_swatch").textContent = colorPaletteInput.value;
                     }
 
                     break;
