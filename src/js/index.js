@@ -250,8 +250,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const createDemoCanvas = () => {
         let thisPixels = "";
-        const currentColumns = columnsPixelInput.value;
-        const currentRows = rowsPixelInput.value;
+        const currentColumns = parseInt(columnsPixelInput.textContent);
+        const currentRows = parseInt(rowsPixelInput.textContent);
 
         const createDemo = createSvg("demo_svg", currentColumns, currentRows);
         selector(".demo_canvas").innerHTML = createDemo;
@@ -343,14 +343,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (colorBgPixelInput.checked) {
                         console.log(colorBgPixelInput.checked);
-                        createMainCanvas(currentName, columnsPixelInput.value, rowsPixelInput.value, bgPixelColor.value);
+                        createMainCanvas(currentName, parseInt(columnsPixelInput.textContent), parseInt(rowsPixelInput.textContent), bgPixelColor.value);
                         pageActions.pixel_start_color = bgPixelColor.value;
                         selectorAll(".main_pixel").forEach((pixel) => {
                             pixel.setAttribute("data-color", bgPixelColor.value);
                         });
                     } else {
                         pageActions.pixel_start_color = "transparent";
-                        createMainCanvas(currentName, columnsPixelInput.value, rowsPixelInput.value, "transparent");
+                        createMainCanvas(currentName, parseInt(columnsPixelInput.textContent), parseInt(rowsPixelInput.textContent), "transparent");
                         selectorAll(".main_pixel").forEach((pixel) => {
                             pixel.setAttribute("data-color", "transparent");
                         });
@@ -668,10 +668,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const thisInput = selector(`.${btnInput}`);
             console.log(btnInput, btnRef);
-            if (btnRef === "add") {
-                thisInput.value = parseInt(thisInput.value) + 1;
-            } else if (btnRef === "subtract") {
-                thisInput.value = parseInt(thisInput.value) - 1;
+            if (parseInt(thisInput.textContent) === 2) {
+                if (btnRef === "add") {
+                    thisInput.textContent = parseInt(thisInput.textContent) + 1;
+                }
+            } else if (parseInt(thisInput.textContent) > 2) {
+                if (btnRef === "add") {
+                    thisInput.textContent = parseInt(thisInput.textContent) + 1;
+                } else if (btnRef === "subtract") {
+                    thisInput.textContent = parseInt(thisInput.textContent) - 1;
+                }
             }
 
             createDemoCanvas();
@@ -684,10 +690,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const thisInput = selector(`.${btnInput}`);
             console.log(btnInput, btnRef);
-            if (btnRef === "add") {
-                thisInput.value = parseInt(thisInput.value) + 1;
-            } else if (btnRef === "subtract") {
-                thisInput.value = parseInt(thisInput.value) - 1;
+            if (parseInt(thisInput.textContent) === 2) {
+                if (btnRef === "add") {
+                    thisInput.textContent = parseInt(thisInput.textContent) + 1;
+                }
+            } else if (parseInt(thisInput.textContent) > 2) {
+                if (btnRef === "add") {
+                    thisInput.textContent = parseInt(thisInput.textContent) + 1;
+                } else if (btnRef === "subtract") {
+                    thisInput.textContent = parseInt(thisInput.textContent) - 1;
+                }
             }
         });
     });
@@ -710,7 +722,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     selectorAll(".input_number").forEach((input) => {
         input.addEventListener("input", () => {
-            console.log(input.value);
+            console.log(input.textContent);
             createDemoCanvas();
         });
     });

@@ -126,6 +126,7 @@ HTML {
     --tc: rgb(25, 25, 25);
     --tc_c: rgb(225, 225, 255);
     --bgC: rgb(225, 225, 255);
+    --note: hsl(266, 94%, 55%);
     --fc: hsl(200, 90%, 50%);
     --sc: hsl(200, 90%, 35%);
     --input_bg: rgb(220, 220, 250);
@@ -145,6 +146,7 @@ HTML {
     --tc: rgb(225, 225, 255);
     --tc_c: rgb(25, 25, 25);
     --bgC: rgb(25, 25, 25);
+    --note: hsl(46, 94%, 55%);
     --fc: hsl(155, 100%, 40%);
     --sc: hsl(155, 100%, 50%);
     --input_bg: rgb(0, 0, 40);
@@ -155,7 +157,6 @@ HTML {
     --is: rgba(220, 220, 220, 0.25);
     --nvc: rgb(10, 10, 10, 0.8);
     --nvc_h: rgb(15, 15, 15, 0.9);
-
     --tc_m: rgb(225, 225, 255);
 }
 BODY {
@@ -307,7 +308,7 @@ BODY {
     @include flexDirection(row, center, center);
 }
 .note {
-    color: var(--fc);
+    color: var(--note);
     font-size: var(--fs_xs);
     padding: 1rem 0;
     text-align: center;
@@ -433,6 +434,12 @@ BODY {
         @include flexDirection(row, center, center);
         width: auto;
         text-align: center;
+    }
+    .number_inp {
+        display: block;
+        background: var(--input_bg);
+        height: 100%;
+        padding: 0.5rem;
     }
 }
 .checkbox_control {
