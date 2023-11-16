@@ -674,8 +674,8 @@ BODY INPUT[type=color]:disabled {
   overflow-x: hidden;
   max-height: calc(100svh - 12rem);
 }
-.alert .canvas_svg,
-.modal .canvas_svg {
+.alert .canvas_container,
+.modal .canvas_container {
   padding: 0.5rem;
   background: var(--nvc_h);
 }
@@ -779,18 +779,6 @@ BODY INPUT[type=color]:disabled {
 .modal .create_modal .bg_check_control {
   grid-area: check_bg;
 }
-.modal .create_modal .demo_canvas_container {
-  max-height: 50svh;
-  min-height: 5rem;
-}
-.modal .create_modal .demo_canvas_container .icon_container {
-  max-height: 50svh;
-  min-height: 5rem;
-}
-.modal .create_modal .demo_canvas_container .icon_container .icon_svg {
-  max-height: 50svh;
-  min-height: 5rem;
-}
 .modal .create_modal .checkbox_control {
   padding-top: 0.5rem;
 }
@@ -814,9 +802,21 @@ BODY INPUT[type=color]:disabled {
   align-items: center;
 }
 .modal .canvas_container {
-  width: 100%;
-  max-width: 100%;
   height: auto;
+  max-height: 55svh;
+  min-height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal .canvas_container .icon_container {
+  max-height: 55svh;
+  min-height: 5rem;
+}
+.modal .canvas_container .icon_svg {
+  height: 100%;
+  max-height: calc(55svh - 1rem);
+  min-height: 5rem;
 }
 .modal .input_control {
   margin-top: 0.5rem;

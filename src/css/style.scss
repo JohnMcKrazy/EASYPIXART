@@ -650,7 +650,7 @@ BODY {
             max-height: calc(100svh - 12rem);
         }
     }
-    .canvas_svg {
+    .canvas_container {
         padding: 0.5rem;
         background: var(--nvc_h);
     }
@@ -754,18 +754,6 @@ BODY {
             grid-area: check_bg;
         }
 
-        .demo_canvas_container {
-            max-height: 50svh;
-            min-height: 5rem;
-            .icon_container {
-                max-height: 50svh;
-                min-height: 5rem;
-                .icon_svg {
-                    max-height: 50svh;
-                    min-height: 5rem;
-                }
-            }
-        }
         .checkbox_control {
             padding-top: 0.5rem;
         }
@@ -789,9 +777,20 @@ BODY {
         }
     }
     .canvas_container {
-        width: 100%;
-        max-width: 100%;
         height: auto;
+
+        max-height: 55svh;
+        min-height: 5rem;
+        @include flex(center, center);
+        .icon_container {
+            max-height: 55svh;
+            min-height: 5rem;
+        }
+        .icon_svg {
+            height: 100%;
+            max-height: calc(55svh - 1rem);
+            min-height: 5rem;
+        }
     }
     .input_control {
         margin-top: 0.5rem;
