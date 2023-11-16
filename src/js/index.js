@@ -22,32 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
             checkbox_status: "",
         },
         theme: "dark_theme",
-        swatches: [
-            {
-                name: "verde limon",
-                hexa_color: "#00cc77",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#5ddfa9",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64ddab",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64dddb",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#d564dd",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#dd6499",
-            },
-        ],
+        swatches: [],
         gallery: [],
         alerts: {
             refresh_alert: none,
