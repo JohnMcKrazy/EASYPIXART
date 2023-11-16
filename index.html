@@ -47,101 +47,127 @@
             </div>
         </div>
         <div class="alert">
-            <div class="window_content refresh_alert">
-                <button type="button" class="close_btn close_alert_btn" ref="alert" data-name="close_alert" data-modal="refresh_alert">
-                    <div class="icon_container">
-                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
-                        </svg>
-                    </div>
-                </button>
-                <div class="content_container">
-                    <h1 class="title accent">Cuidado</h1>
-                    <div class="text_content">
-                        <p>Estas apunto de borrar todo lo que has creado hasta el momento, tu canvas quedara como al inicio.</p>
-                    </div>
-                    <div class="btns_container">
-                        <button type="button" class="btn alert_btn accept_refresh_alert" ref="accept_refresh" data-name="accept_refresh_alert" data-modal="refresh_alert">
-                            <span class="lable_btn"> Aceptar </span>
-                        </button>
-                        <button type="button" class="btn alert_btn cancel_refresh_alert" ref="cancel_refresh" data-name="cancel_refresh_alert" data-modal="refresh_alert">
-                            <span class="lable_btn"> Cancelar </span>
-                        </button>
-                    </div>
-                    <div class="check_control">
-                        <label for="refresh_check" class="checkbox_control">
-                            <span class="label_input"> I don't want to see this message again</span>
-                            <input type="checkbox" class="check refresh_check" id="refresh_check" ref="refresh" />
-                            <span class="checkmark"><span class="checkmark_after"></span></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="window_content save_swatch_alert">
-                <button type="button" class="close_btn close_alert_btn" ref="alert" data-name="close_alert" data-modal="save_swatch_alert">
-                    <div class="icon_container">
-                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
-                        </svg>
-                    </div>
-                </button>
-                <div class="content_container">
-                    <h1 class="title accent">Salvar Muestra</h1>
-                    <div class="inputs_controler">
-                        <div class="input_control text_control">
-                            <label for="inp_save_swatch_name">Nombre</label>
-                            <input type="text" name="inp_save_swatch_name" class="input_text inp_save_swatch_name" id="inp_save_swatch_name" ref="save_swatch_alert" data-name="inp_save_swatch_name" value="New Swatch" />
+            <div class="window_content">
+                <div class="refresh_alert window_alert">
+                    <button type="button" class="close_btn close_alert_btn" ref="alert" data-name="close_alert" data-modal="refresh_alert">
+                        <div class="icon_container">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="content_container">
+                        <h1 class="title accent">Cuidado</h1>
+                        <div class="text_content">
+                            <p>Estas apunto de borrar todo lo que has creado hasta el momento, tu canvas quedara como al inicio.</p>
+                        </div>
+                        <div class="btns_container">
+                            <button type="button" class="btn alert_btn accept_refresh_alert" ref="accept_refresh" data-name="accept_refresh_alert" data-modal="refresh_alert">
+                                <span class="lable_btn"> Aceptar </span>
+                            </button>
+                            <button type="button" class="btn alert_btn cancel_refresh_alert" ref="cancel_refresh" data-name="cancel_refresh_alert" data-modal="refresh_alert">
+                                <span class="lable_btn"> Cancelar </span>
+                            </button>
+                        </div>
+                        <div class="check_control">
+                            <label for="refresh_check" class="checkbox_control">
+                                <span class="label_input"> I don't want to see this message again</span>
+                                <input type="checkbox" class="check refresh_check" id="refresh_check" ref="refresh" />
+                                <span class="checkmark"><span class="checkmark_after"></span></span>
+                            </label>
                         </div>
                     </div>
-                    <div class="swatch_container">
-                        <span class="label_swatch"></span>
-                    </div>
-                    <div class="btns_container">
-                        <button type="button" class="btn alert_btn accept_save_swatch_alert" ref="accept_save_swatch" data-name="accept_save_swatch_alert" data-modal="save_swatch_alert">
-                            <span class="lable_btn"> Aceptar </span>
-                        </button>
-                        <button type="button" class="btn alert_btn cancel_save_swatch_alert" ref="cancel_save_swatch" data-name="cancel_save_swatch_alert" data-modal="save_swatch_alert">
-                            <span class="lable_btn"> Cancelar </span>
-                        </button>
+                </div>
+                <div class="save_swatch_alert window_alert">
+                    <button type="button" class="close_btn close_alert_btn" ref="alert" data-name="close_alert" data-modal="save_swatch_alert">
+                        <div class="icon_container">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="content_container">
+                        <h1 class="title accent">Salvar Muestra</h1>
+                        <div class="inputs_controler">
+                            <div class="input_control text_control">
+                                <label for="inp_save_swatch_name">Nombre</label>
+                                <input type="text" name="inp_save_swatch_name" class="input_text inp_save_swatch_name" id="inp_save_swatch_name" ref="save_swatch_alert" data-name="inp_save_swatch_name" value="New Swatch" />
+                            </div>
+                        </div>
+                        <div class="swatch_container">
+                            <span class="label_swatch"></span>
+                        </div>
+                        <div class="btns_container">
+                            <button type="button" class="btn alert_btn accept_save_swatch_alert" ref="accept_save_swatch" data-name="accept_save_swatch_alert" data-modal="save_swatch_alert">
+                                <span class="lable_btn"> Aceptar </span>
+                            </button>
+                            <button type="button" class="btn alert_btn cancel_save_swatch_alert" ref="cancel_save_swatch" data-name="cancel_save_swatch_alert" data-modal="save_swatch_alert">
+                                <span class="lable_btn"> Cancelar </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="window_content swatch_alert">
-                <button type="button" class="close_btn close_alert_btn" ref="alert" data-name="close_alert" data-modal="swatch_alert">
-                    <div class="icon_container">
-                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
-                        </svg>
-                    </div>
-                </button>
-                <div class="content_container">
-                    <h1 class="title accent">Atencion</h1>
-                    <p>Este color ya lo tienes, lo puedes encontrar entre tus muestras como <span class="swatch_name_alert"></span></p>
-                    <div class="btn_container">
-                        <button type="button" class="btn alert_btn swatch_exist_btn" ref="swatch_exist" data-name="swatch_exist_btn" data-modal="swatch_alert">
-                            <span class="lable_btn"> Aceptar </span>
-                        </button>
+                <div class="swatch_alert window_alert">
+                    <button type="button" class="close_btn close_alert_btn" ref="alert" data-name="close_alert" data-modal="swatch_alert">
+                        <div class="icon_container">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="content_container">
+                        <h1 class="title accent">Atencion</h1>
+                        <p>Este color ya lo tienes, lo puedes encontrar entre tus muestras como <span class="swatch_name_alert"></span></p>
+                        <div class="btn_container">
+                            <button type="button" class="btn alert_btn swatch_exist_btn" ref="swatch_exist" data-name="swatch_exist_btn" data-modal="swatch_alert">
+                                <span class="lable_btn"> Aceptar </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="window_content swatches_alert">
-                <button type="button" class="close_btn" ref="alert" data-name="close_swatches_alert" data-modal="swatches_alert">
-                    <div class="icon_container">
-                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
-                        </svg>
-                    </div>
-                </button>
+                <div class="swatches_alert window_alert">
+                    <button type="button" class="close_btn" ref="alert" data-name="close_swatches_alert" data-modal="swatches_alert">
+                        <div class="icon_container">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                            </svg>
+                        </div>
+                    </button>
 
-                <div class="content_container">
-                    <h1 class="title">Muestras de color</h1>
-                    <div class="items_container swatches_container alert_swatches_container"></div>
-                    <span class="alert_msg_items swatches_msg">Vacio</span>
+                    <div class="content_container">
+                        <h1 class="title">Muestras de color</h1>
+                        <div class="items_container swatches_container alert_swatches_container"></div>
+                        <span class="alert_msg_items swatches_msg">Vacio</span>
+                    </div>
+                </div>
+                <div class="canvas_alert window_alert">
+                    <button type="button" class="close_btn" ref="alert" data-name="close_canvas_alert" data-modal="canvas_alert">
+                        <div class="icon_container">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <div class="content_container">
+                        <h1 class="title accent">Atencion</h1>
+                        <p>Para acceder a esta funcionalidad primero debes de crear un canvas</p>
+                        <div class="btns_container">
+                            <button type="button" class="btn alert_btn canvas_accept_btn" ref="canvas_accept" data-name="canvas_accept_btn" data-modal="canvas_alert">
+                                <span class="lable_btn"> Entendido </span>
+                            </button>
+
+                            <button type="button" class="btn alert_btn canvas_create_btn" ref="canvas_create" data-name="swatch_exist_btn" data-modal="canvas_alert">
+                                <span class="lable_btn"> Crear Canvas </span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="modal">
-            <div class="window_content hello_modal">
+           <div class="window_content">
+            <div class="window_modal hello_modal">
                 <button type="button" class="close_btn" ref="modal" data-name="close_hello_modal" data-modal="hello_modal">
                     <div class="icon_container">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -196,7 +222,7 @@
                     </div>
                 </div>
             </div>
-            <form class="window_content create_modal">
+            <form class="window_modal create_modal">
                 <button type="button" class="close_btn" ref="modal" data-name="close_create_modal" data-modal="create_modal">
                     <div class="icon_container">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -266,7 +292,7 @@
                     </div>
                 </div>
             </form>
-            <div class="window_content swatches_modal">
+            <div class="window_modal swatches_modal">
                 <button type="button" class="close_btn" ref="modal" data-name="close_swatches_modal" data-modal="swatches_modal">
                     <div class="icon_container">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -281,7 +307,7 @@
                     <span class="alert_msg_items swatches_msg">Vacio</span>
                 </div>
             </div>
-            <div class="window_content save_modal">
+            <div class="window_modal save_modal">
                 <button type="button" class="close_btn" ref="modal" data-name="close_save_modal" data-modal="save_modal">
                     <div class="icon_container">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -327,7 +353,7 @@
                     </div>
                 </div>
             </div>
-            <div class="window_content delete_modal">
+            <div class="window_modal delete_modal">
                 <button type="button" class="close_btn" ref="modal" data-name="close_delete_modal" data-modal="delete_modal">
                     <div class="icon_container">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -374,7 +400,7 @@
                     </div>
                 </div>
             </div>
-            <div class="window_content gallery_modal">
+            <div class="window_modal gallery_modal">
                 <button type="button" class="close_btn" ref="modal" data-name="close_gallery_modal" data-modal="gallery_modal">
                     <div class="icon_container">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -388,6 +414,7 @@
                     <span class="alert_msg_items gallery_msg">Vacio</span>
                 </div>
             </div>
+           </div>
         </div>
 
         <nav class="nav top_nav palette_nav">

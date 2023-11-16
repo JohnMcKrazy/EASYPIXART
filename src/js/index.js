@@ -47,126 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: "New Swatch",
                 hexa_color: "#dd6499",
             },
-            {
-                name: "verde limon",
-                hexa_color: "#00cc77",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#5ddfa9",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64ddab",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64dddb",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#d564dd",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#dd6499",
-            },
-            {
-                name: "verde limon",
-                hexa_color: "#00cc77",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#5ddfa9",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64ddab",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64dddb",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#d564dd",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#dd6499",
-            },
-            {
-                name: "verde limon",
-                hexa_color: "#00cc77",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#5ddfa9",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64ddab",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64dddb",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#d564dd",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#dd6499",
-            },
-            {
-                name: "verde limon",
-                hexa_color: "#00cc77",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#5ddfa9",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64ddab",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64dddb",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#d564dd",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#dd6499",
-            },
-            {
-                name: "verde limon",
-                hexa_color: "#00cc77",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#5ddfa9",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64ddab",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#64dddb",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#d564dd",
-            },
-            {
-                name: "New Swatch",
-                hexa_color: "#dd6499",
-            },
         ],
         gallery: [],
         alerts: {
@@ -647,88 +527,96 @@ document.addEventListener("DOMContentLoaded", () => {
             const btnRef = btn.getAttribute("ref");
             const btnName = btn.getAttribute("data-name");
             const btnModal = btn.getAttribute("data-modal");
-            modalWindowActions(open, btnModal);
+
             animTranform(selector(`.${btnRef}`), "translateY(0)", "translateY(-100%)");
             pageActions.nav = close;
             console.log(btnRef, btnName, btnModal);
             selector(".menu_btn").classList.remove("active");
+            if (btnName !== "save_btn") {
+                modalWindowActions(open, btnModal);
+            }
             switch (btnName) {
                 case "create_btn":
                     createDemoCanvas();
                     break;
                 case "save_btn":
-                    const artColumns = pageActions.artColumns;
-                    const artRows = pageActions.artRows;
+                    if (selector(".main_svg")) {
+                        modalWindowActions(open, btnModal);
+                        const artColumns = pageActions.artColumns;
+                        const artRows = pageActions.artRows;
 
-                    let classesStyle = "";
-                    let classesCodeStyle = "";
-                    let newPixels = "";
-                    let codePixel = "";
-                    let codeStyle = "";
-                    let codeColors = [];
-                    const thisPixels = [];
-                    const thisColors = [];
-                    saveArtNameInput.value = pageActions.art_name;
-                    const svgPixels = selector(".main_svg").children;
-                    console.log(svgPixels);
+                        let classesStyle = "";
+                        let classesCodeStyle = "";
+                        let newPixels = "";
+                        let codePixel = "";
+                        let codeStyle = "";
+                        let codeColors = [];
+                        const thisPixels = [];
+                        const thisColors = [];
+                        saveArtNameInput.value = pageActions.art_name;
+                        const svgPixels = selector(".main_svg").children;
+                        console.log(svgPixels);
 
-                    for (let loop = 0; loop < svgPixels.length; loop++) {
-                        if (svgPixels[loop].getAttribute("fill"))
-                            thisPixels.push({
-                                x: svgPixels[loop].getAttribute("x"),
-                                y: svgPixels[loop].getAttribute("y"),
-                                fill: svgPixels[loop].getAttribute("fill"),
+                        for (let loop = 0; loop < svgPixels.length; loop++) {
+                            if (svgPixels[loop].getAttribute("fill"))
+                                thisPixels.push({
+                                    x: svgPixels[loop].getAttribute("x"),
+                                    y: svgPixels[loop].getAttribute("y"),
+                                    fill: svgPixels[loop].getAttribute("fill"),
+                                });
+                            if (!thisColors.includes(svgPixels[loop].getAttribute("fill"))) {
+                                thisColors.push(svgPixels[loop].getAttribute("fill"));
+                            }
+                            if (svgPixels[loop].getAttribute("fill") !== "transparent" && !codeColors.includes(svgPixels[loop].getAttribute("fill"))) {
+                                codeColors.push(svgPixels[loop].getAttribute("fill"));
+                            }
+                        }
+                        console.log(thisPixels);
+                        console.log(thisColors);
+                        console.log(codeColors);
+
+                        for (let loop = 0; loop < thisColors.length; loop++) {
+                            classesStyle += `.clr-${loop}{fill:${thisColors[loop]}}`;
+                            thisPixels.forEach((pixel) => {
+                                if (pixel.fill === thisColors[loop]) {
+                                    pixel.class = `clr-${loop}`;
+                                }
                             });
-                        if (!thisColors.includes(svgPixels[loop].getAttribute("fill"))) {
-                            thisColors.push(svgPixels[loop].getAttribute("fill"));
                         }
-                        if (svgPixels[loop].getAttribute("fill") !== "transparent" && !codeColors.includes(svgPixels[loop].getAttribute("fill"))) {
-                            codeColors.push(svgPixels[loop].getAttribute("fill"));
+                        for (let loop = 0; loop < codeColors.length; loop++) {
+                            classesCodeStyle += `.clr-${loop}{fill:${codeColors[loop]}}`;
+                            thisPixels.forEach((pixel) => {
+                                if (pixel.fill === codeColors[loop]) {
+                                    pixel.code_class = `clr-${loop}`;
+                                }
+                            });
                         }
-                    }
-                    console.log(thisPixels);
-                    console.log(thisColors);
-                    console.log(codeColors);
+                        for (let loop = 0; loop < thisPixels.length; loop++) {
+                            newPixels += `<rect class="${thisPixels[loop].class}" width="1" height="1" x="${thisPixels[loop].x}" y="${thisPixels[loop].y}"></rect>`;
+                        }
+                        console.log(classesStyle);
+                        console.log(newPixels);
+                        const newSvg = `<svg class="saved_svg canvas_svg icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artColumns} ${artRows}"><style>${classesStyle}</style>${newPixels}</svg>`;
+                        console.log(newSvg);
+                        selector(".save_canvas ").innerHTML = newSvg;
 
-                    for (let loop = 0; loop < thisColors.length; loop++) {
-                        classesStyle += `.clr-${loop}{fill:${thisColors[loop]}}`;
                         thisPixels.forEach((pixel) => {
-                            if (pixel.fill === thisColors[loop]) {
-                                pixel.class = `clr-${loop}`;
+                            console.log(pixel);
+                            if (pixel.fill !== "transparent") {
+                                codePixel += `<rect class="${pixel.code_class}" width="1" height="1" x="${pixel.x}" y="${pixel.y}"></rect>`;
                             }
                         });
-                    }
-                    for (let loop = 0; loop < codeColors.length; loop++) {
-                        classesCodeStyle += `.clr-${loop}{fill:${codeColors[loop]}}`;
-                        thisPixels.forEach((pixel) => {
-                            if (pixel.fill === codeColors[loop]) {
-                                pixel.code_class = `clr-${loop}`;
-                            }
-                        });
-                    }
-                    for (let loop = 0; loop < thisPixels.length; loop++) {
-                        newPixels += `<rect class="${thisPixels[loop].class}" width="1" height="1" x="${thisPixels[loop].x}" y="${thisPixels[loop].y}"></rect>`;
-                    }
-                    console.log(classesStyle);
-                    console.log(newPixels);
-                    const newSvg = `<svg class="saved_svg canvas_svg icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artColumns} ${artRows}"><style>${classesStyle}</style>${newPixels}</svg>`;
-                    console.log(newSvg);
-                    selector(".save_canvas ").innerHTML = newSvg;
 
-                    thisPixels.forEach((pixel) => {
-                        console.log(pixel);
-                        if (pixel.fill !== "transparent") {
-                            codePixel += `<rect class="${pixel.code_class}" width="1" height="1" x="${pixel.x}" y="${pixel.y}"></rect>`;
-                        }
-                    });
-
-                    const codeSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artColumns} ${artRows}"><style>${classesCodeStyle}</style>${codePixel}</svg>`;
-                    selector(".svg_code").textContent = codeSvg;
-                    const blob = new Blob([codeSvg], { type: "image/svg+xml" });
-                    const url = URL.createObjectURL(blob);
-                    const downloadBtn = selector(".download_art_btn");
-                    downloadBtn.href = url;
-                    pageActions.pixels_to_save = { pixels: thisPixels };
+                        const codeSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artColumns} ${artRows}"><style>${classesCodeStyle}</style>${codePixel}</svg>`;
+                        selector(".svg_code").textContent = codeSvg;
+                        const blob = new Blob([codeSvg], { type: "image/svg+xml" });
+                        const url = URL.createObjectURL(blob);
+                        const downloadBtn = selector(".download_art_btn");
+                        downloadBtn.href = url;
+                        pageActions.pixels_to_save = { pixels: thisPixels };
+                    } else {
+                        alertWindowActions(open, "canvas_alert");
+                    }
                     break;
                 case "gallery_btn":
                     updateStorage();
@@ -931,6 +819,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                     } else if (selector(`.${btnName}`).querySelector(".radio_input").checked && !selector(".main_svg")) {
                         console.log("No tienes are de trabajo dumbass");
+                        alertWindowActions(open, "canvas_alert");
                     }
 
                     break;
