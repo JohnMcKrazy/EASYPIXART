@@ -218,19 +218,6 @@ BODY INPUT {
   color: var(--tc);
   font-size: var(--fs_s);
 }
-BODY INPUT[type=number] {
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  text-align: center;
-  color: var(--tc);
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-}
-BODY INPUT[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
 BODY LABEL {
   font-size: var(--fs_s);
 }
@@ -1085,9 +1072,6 @@ BODY INPUT[type=color]:disabled {
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  /*  &:not(:last-child) {
-      margin-bottom: 0.5rem;
-  } */
 }
 
 .input_control {
@@ -1095,9 +1079,6 @@ BODY INPUT[type=color]:disabled {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  /*  &:not(:last-child) {
-      margin-bottom: 0.5rem;
-  } */
 }
 .input_control INPUT {
   text-align: center;
@@ -1142,9 +1123,3 @@ BODY INPUT[type=color]:disabled {
   max-height: 100%;
   width: auto;
 }
-
-/* @media screen and (min-width: 720px) {
-    .nav {
-        display: none;
-    }
-} */

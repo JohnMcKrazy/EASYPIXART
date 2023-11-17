@@ -229,17 +229,7 @@ BODY {
         color: var(--tc);
         font-size: var(--fs_s);
     }
-    INPUT[type="number"] {
-        width: 2rem;
-        height: 2rem;
-        padding: 0;
-        text-align: center;
-        color: var(--tc);
-        appearance: none;
-    }
-    INPUT[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-    }
+
     LABEL {
         font-size: var(--fs_s);
     }
@@ -1027,19 +1017,12 @@ BODY {
 }
 .inputs_controler {
     @include flexDirection(row, center, flex-start);
-
-    /*  &:not(:last-child) {
-        margin-bottom: 0.5rem;
-    } */
 }
 .input_control {
     @include flexDirection(column, flex-start, center);
     INPUT {
         text-align: center;
     }
-    /*  &:not(:last-child) {
-        margin-bottom: 0.5rem;
-    } */
 
     INPUT[type="color"] {
         padding: 0;
@@ -1078,8 +1061,3 @@ BODY {
         width: auto;
     }
 }
-/* @media screen and (min-width: 720px) {
-    .nav {
-        display: none;
-    }
-} */
