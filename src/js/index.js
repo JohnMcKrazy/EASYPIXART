@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         artColumns: 0,
         artRows: 0,
-        modal: open,
+        config: open,
         nav: close,
         alert: close,
         navsConfig: {
@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const swatchTemplate = selector(".swatch_template").content;
 
     const BODY = selector("body");
-    const modal = selector(".modal");
+    const config = selector(".config");
     const alert = selector(".alert");
-    const modalSwatchesContainer = selector(".modal_swatches_container");
+    const popup = selector(".popup");
     const alertSwatchesContainer = selector(".alert_swatches_container");
     const swatchesEmptylabel = selector(".swatches_msg");
     const galleryContainer = selector(".gallery_container");
@@ -165,27 +165,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return newId();
     };
     //¿ ACTIONS
-    const closeModal = () => {
-        pageActions.modal = close;
-        modal.style.opacity = 0;
+    const closeConfig = () => {
+        pageActions.config = close;
+        config.style.opacity = 0;
         setTimeout(() => {
-            modal.style.display = none;
+            config.style.display = none;
         }, 1000);
     };
-    const openModal = () => {
-        pageActions.modal = open;
-        modal.style.display = block;
+    const openConfig = () => {
+        pageActions.config = open;
+        config.style.display = block;
         setTimeout(() => {
-            modal.style.opacity = 1;
+            config.style.opacity = 1;
         }, 200);
     };
-    const modalWindowActions = (action, window) => {
+    const configWindowActions = (action, window) => {
         const thisWindow = selector(`.${window}`);
         if (action === open) {
-            openModal();
+            openConfig();
             thisWindow.style.display = block;
         } else if (action === close) {
-            closeModal();
+            closeConfig();
             setTimeout(() => (thisWindow.style.display = none), 1200);
         }
     };
@@ -213,6 +213,37 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => (thisWindow.style.display = none), 1200);
         }
     };
+    const openPopUp = () => {
+        popup.style.display = block;
+        setTimeout(() => {
+            popup.style.opacity = 1;
+        }, 100);
+    };
+    const closePopUp = () => {
+        popup.style.opacity = 0;
+        setTimeout(() => {
+            popup.style.display = none;
+        }, 500);
+    };
+    const popupWindowActions = (action, window, text = "") => {
+        console.log(action);
+        console.log(window);
+        console.log(text);
+
+        const thisWindow = selector(`.${window}`);
+        console.log(thisWindow);
+        if (action === open) {
+            openPopUp();
+            thisWindow.style.display = block;
+            if (text !== "") {
+                thisWindow.querySelector("P").textContent = text;
+            }
+        } else if (action === close) {
+            closePopUp();
+            setTimeout(() => (thisWindow.style.display = none), 600);
+        }
+    };
+
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
     const createSwatch = (item) => {
         const thisTemp = swatchTemplate.cloneNode(true);
@@ -229,8 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const swatchesBtnsAction = () => {
         selectorAll(".swatch_item").forEach((itemColor) => {
             itemColor.addEventListener("click", () => {
-                modalWindowActions(close, "swatches_modal");
-                pageActions.modal = close;
+                alertWindowActions(close, "swatches_alert");
                 const thisColor = itemColor.getAttribute("data-color");
                 console.log(thisColor);
                 colorPaletteInput.value = thisColor;
@@ -315,11 +345,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const btnModal = btn.getAttribute("data-modal");
             console.log(btnName);
             console.log(btnRef);
+            console.log(btnModal);
             switch (btnRef) {
                 case "intro":
                     switch (btnName) {
                         case "skip":
-                            modalWindowActions(close, "hello_modal");
+                            configWindowActions(close, "hello_modal");
                             if (selector(".intro_check").checked === true) {
                                 console.log("ahi vas mano");
                                 storageContent.intro["checkbox_status"] = btnName;
@@ -332,15 +363,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     break;
                 case "create_canvas":
-                    modalWindowActions(close, btnModal);
-                    const name = createArtNameInput.value;
+                    configWindowActions(close, btnModal);
+                    const name = sanitizeInput(createArtNameInput.value);
                     let currentName = "";
-                    if (name !== "" || name !== null) {
-                        currentName = sanitizeInput(name);
-                    } else {
+                    if (name === "" || name === null) {
                         currentName = "Unknown";
+                    } else if (name !== "" || name !== null) {
+                        currentName = name;
                     }
-
+                    console.log(currentName);
                     if (colorBgPixelInput.checked) {
                         console.log(colorBgPixelInput.checked);
                         createMainCanvas(currentName, parseInt(columnsPixelInput.textContent), parseInt(rowsPixelInput.textContent), bgPixelColor.value);
@@ -377,8 +408,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                         }
                     });
-                    modalWindowActions(close, "delete_modal");
-                    pageActions.modal = close;
+                    configWindowActions(close, "delete_modal");
+                    pageActions.config = close;
                     saveStorage();
                     break;
                 case "cancel_refresh":
@@ -402,9 +433,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     break;
                 case "save_art":
-                    modalWindowActions(close, "save_modal");
+                    configWindowActions(close, "save_modal");
 
-                    pageActions.modal = close;
+                    pageActions.config = close;
                     let thisSaved = pageActions.pixels_to_save;
                     thisSaved.columns = pageActions.artColumns;
                     thisSaved.rows = pageActions.artRows;
@@ -429,29 +460,63 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     break;
                 case "download_art":
-                    modalWindowActions(close, "save_modal");
-                    pageActions.modal = close;
+                    configWindowActions(close, "save_modal");
+                    pageActions.config = close;
+                    break;
+                case "alert_swatch_name_accept":
+                    popupWindowActions(close, btnModal);
                     break;
                 case "accept_save_swatch":
                     const storageSwatches = storageContent.swatches;
                     const pickerValue = colorPaletteInput.value;
-
+                    //! AGREGAR CHECK DE TEXTO VACIO Y APERTURA DE ALERT POR NO NOMBRE
                     const swatchName = selector(".inp_save_swatch_name").value;
                     console.log(pickerValue);
 
-                    storageSwatches.push({
-                        name: swatchName,
-                        hexa_color: pickerValue,
-                    });
-                    colorItemsCounter.textContent = storageSwatches.length;
-                    console.log(storageContent, storageSwatches);
-                    saveStorage();
+                    if (swatchName === "") {
+                        popupWindowActions(open, "alert_popup", "No puedes salvar tu muestra sin un nombre, por favor coloca uno antes de intentar salvarla");
+                    } else {
+                        const searchName = storageSwatches.find((item) => {
+                            if (item.name === swatchName) return item;
+                        });
+                        console.log(searchName);
+                        if (searchName) {
+                            popupWindowActions(open, "alert_popup", "Ese nombre de muestra ya existe, por favor ingresa uno diferente");
+                        } else {
+                            storageSwatches.push({
+                                name: swatchName,
+                                hexa_color: pickerValue,
+                            });
+                            colorItemsCounter.textContent = storageSwatches.length;
+                            console.log(storageContent, storageSwatches);
+                            saveStorage();
+                            alertWindowActions(close, btnModal);
+                        }
+                    }
+
+                    break;
+                case "cancel_save_swatch":
                     alertWindowActions(close, btnModal);
                     break;
-                case "swatch_exist":
+                case "alert_swatch_accept":
                     alertWindowActions(close, btnModal);
+                    break;
+                case "search_popup_accept":
+                    popupWindowActions(close, btnModal);
+                    break;
+                case "edit_popup_accept":
+                    popupWindowActions(close, btnModal);
                     break;
             }
+        });
+    });
+    selectorAll(".action_btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const btnName = btn.getAttribute("data-name");
+            const btnModal = btn.getAttribute("data-modal");
+            console.log(btnName);
+            console.log(btnModal);
+            popupWindowActions(open, btnModal);
         });
     });
     selector(".control_all_check").addEventListener("input", () => {
@@ -496,7 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-    selectorAll(".modal_action_btn").forEach((btn) => {
+    selectorAll(".config_action_btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             console.log(btn);
             const btnRef = btn.getAttribute("ref");
@@ -508,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(btnRef, btnName, btnModal);
             selector(".menu_btn").classList.remove("active");
             if (btnName !== "save_btn") {
-                modalWindowActions(open, btnModal);
+                configWindowActions(open, btnModal);
             }
             switch (btnName) {
                 case "create_btn":
@@ -516,7 +581,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 case "save_btn":
                     if (selector(".main_svg")) {
-                        modalWindowActions(open, btnModal);
+                        configWindowActions(open, btnModal);
                         const artColumns = pageActions.artColumns;
                         const artRows = pageActions.artRows;
 
@@ -615,30 +680,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                         const btnId = btn.getAttribute("id");
                                         const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
                                         createArtCanvas(thisItem);
-                                        modalWindowActions(close, "gallery_modal");
+                                        configWindowActions(close, "gallery_modal");
                                     });
                                 });
                             }, 500);
                         });
                     } else {
                         galleryEmptylabel.style.display = block;
-                    }
-                    break;
-                case "swatch_btn":
-                    updateStorage();
-                    const storageSwatches = storageContent.swatches;
-                    console.log(storageSwatches);
-                    if (storageSwatches.length >= 1) {
-                        deleteChildElements(modalSwatchesContainer);
-                        selector(".swatches_modal").querySelector(".swatches_msg").style.display = none;
-                        storageSwatches.forEach((color) => {
-                            createSwatch(color);
-                        });
-                        modalSwatchesContainer.append(swatchSavesFragment);
-                        setTimeout(() => swatchesBtnsAction(), 200);
-                    } else {
-                        deleteChildElements(modalSwatchesContainer);
-                        selector(".swatches_modal").querySelector(".swatches_msg").style.display = block;
                     }
                     break;
                 case "grid_btn":
@@ -714,9 +762,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (btnRef === "alert") {
                 console.log("close alert actions");
                 alertWindowActions(close, btnModal);
-            } else if (btnRef === "modal") {
-                console.log("close modal actions");
-                modalWindowActions(close, btnModal);
+            } else if (btnRef === "config") {
+                console.log("close config actions");
+                configWindowActions(close, btnModal);
             }
         });
     });
@@ -748,6 +796,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         const search = storageSwatches.filter((item) => item.hexa_color === pickerValue);
                         console.log(search);
                         if (search.length === 0) {
+                            const searchName = storageSwatches.filter((item) => item.name == "New Swatch");
+                            console.log(searchName);
+                            selector(".inp_save_swatch_name").value = "";
                             alertWindowActions(open, btnModal);
                             selector(".save_swatch_alert").querySelector(".swatch_container").style.background = colorPaletteInput.value;
                             selector(".save_swatch_alert").querySelector(".swatch_container").querySelector(".label_swatch").textContent = colorPaletteInput.value;
@@ -756,6 +807,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.log("tienes repetido este color");
                         }
                     } else {
+                        selector(".inp_save_swatch_name").value = "";
                         alertWindowActions(open, btnModal);
                         selector(".save_swatch_alert").querySelector(".swatch_container").style.background = colorPaletteInput.value;
                         selector(".save_swatch_alert").querySelector(".swatch_container").querySelector(".label_swatch").textContent = colorPaletteInput.value;
@@ -879,7 +931,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 colorItemsCounter.textContent = storageSwatches.length;
             }
             if (storageContent.intro.checkbox_status === "skip") {
-                modalWindowActions(close, "hello_modal");
+                configWindowActions(close, "hello_modal");
             }
         }
     };
