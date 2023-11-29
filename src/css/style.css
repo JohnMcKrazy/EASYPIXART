@@ -774,7 +774,7 @@ BODY INPUT[type=color]:disabled {
 .modal .window_modal .title {
   text-align: center;
 }
-.modal .window_modal .popup_msg_items {
+.modal .window_modal .alert_msg_items {
   position: absolute;
   width: auto;
   left: 50%;
