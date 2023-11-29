@@ -813,8 +813,15 @@ BODY INPUT[type=color]:disabled {
   z-index: 30;
   background: var(--nvc_f);
 }
+.alert .window_modal {
+  width: 90%;
+  max-width: 400px;
+}
 .alert .window_content {
   display: block;
+}
+.alert P {
+  text-align: center;
 }
 
 .popup {

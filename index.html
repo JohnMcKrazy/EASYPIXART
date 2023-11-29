@@ -118,8 +118,8 @@
 
                     <div class="content_container">
                         <h1 class="title">Muestras de color</h1>
-                        <div class="action_btns_container">
-                            <button type="button" class="action_btn search_swatch_action" data-from="swatches_popup" data-to="search_popup">
+                        <!--  <div class="action_btns_container">
+                            <button type="button" class="action_btn search_swatch_action" data-from="swatches_popup" data-to="search_popup" ref="swatches">
                                 <div class="icon_container">
                                     <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
@@ -128,7 +128,7 @@
                                     </svg>
                                 </div>
                             </button>
-                            <button type="button" class="action_btn edit_swatch_action" data-from="swatches_popup" data-to="edit_popup">
+                            <button type="button" class="action_btn edit_swatch_action" data-from="swatches_popup" data-to="edit_popup" ref="swatches">
                                 <div class="icon_container">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
@@ -137,7 +137,7 @@
                                     </svg>
                                 </div>
                             </button>
-                        </div>
+                        </div> -->
 
                         <div class="items_container swatches_container popup_swatches_container"></div>
                         <span class="popup_msg_items swatches_msg">Vacio</span>
@@ -399,6 +399,26 @@
                     </button>
                     <div class="content_container">
                         <h1 class="title">Galeria</h1>
+                        <div class="action_btns_container">
+                            <button type="button" class="action_btn search_swatch_action" data-from="gallery_config" data-to="search_popup" ref="gallery">
+                                <div class="icon_container">
+                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </button>
+                            <button type="button" class="action_btn edit_swatch_action" data-from="gallery_config" data-to="edit_popup" ref="gallery">
+                                <div class="icon_container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M15.7279 9.57629L14.3137 8.16207L5 17.4758V18.89H6.41421L15.7279 9.57629ZM17.1421 8.16207L18.5563 6.74786L17.1421 5.33365L15.7279 6.74786L17.1421 8.16207ZM7.24264 20.89H3V16.6474L16.435 3.21233C16.8256 2.8218 17.4587 2.8218 17.8492 3.21233L20.6777 6.04075C21.0682 6.43128 21.0682 7.06444 20.6777 7.45497L7.24264 20.89Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
                         <div class="items_container gallery_container"></div>
                         <span class="alert_msg_items gallery_msg">Vacio</span>
                     </div>
