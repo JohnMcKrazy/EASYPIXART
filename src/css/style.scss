@@ -729,7 +729,7 @@ BODY {
         .title {
             text-align: center;
         }
-        .alert_msg_items {
+        .popup_msg_items {
             position: absolute;
             width: auto;
             left: 50%;
@@ -764,17 +764,20 @@ BODY {
     opacity: 0;
     transition: var(--t_m);
 }
-.popup {
+.alert {
     z-index: 30;
     background: var(--nvc_f);
+    .window_content {
+        display: block;
+    }
 }
-.alert {
+.popup {
     background: var(--nvc_h);
     z-index: 15;
     H1 {
         color: var(--fc);
     }
-    .save_swatch_alert {
+    .save_swatch_popup {
         .swatch_container {
             position: relative;
             height: 10rem;
@@ -789,11 +792,14 @@ BODY {
             }
         }
     }
-    .swatches_alert {
+    .swatches_popup {
         .label {
             display: block;
             /* text-align: center; */
         }
+    }
+    .content_container {
+        position: relative;
     }
 }
 
@@ -814,7 +820,7 @@ BODY {
     overflow-x: hidden;
     overflow-y: auto;
 
-    .hello_modal {
+    .hello_config {
         display: block;
         .content_container {
             margin-top: 1rem;
@@ -835,7 +841,7 @@ BODY {
             background: var(--fc);
         }
     }
-    .create_modal {
+    .create_config {
         .inputs_controler {
             width: 100%;
             display: grid;
@@ -868,7 +874,7 @@ BODY {
             margin-bottom: 2rem;
         }
     }
-    .delete_modal {
+    .delete_config {
         .inputs_controler {
             flex-direction: column;
             align-items: flex-start;

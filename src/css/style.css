@@ -774,7 +774,7 @@ BODY INPUT[type=color]:disabled {
 .modal .window_modal .title {
   text-align: center;
 }
-.modal .window_modal .alert_msg_items {
+.modal .window_modal .popup_msg_items {
   position: absolute;
   width: auto;
   left: 50%;
@@ -809,23 +809,26 @@ BODY INPUT[type=color]:disabled {
   transition: var(--t_m);
 }
 
-.popup {
+.alert {
   z-index: 30;
   background: var(--nvc_f);
 }
+.alert .window_content {
+  display: block;
+}
 
-.alert {
+.popup {
   background: var(--nvc_h);
   z-index: 15;
 }
-.alert H1 {
+.popup H1 {
   color: var(--fc);
 }
-.alert .save_swatch_alert .swatch_container {
+.popup .save_swatch_popup .swatch_container {
   position: relative;
   height: 10rem;
 }
-.alert .save_swatch_alert .swatch_container .label_swatch {
+.popup .save_swatch_popup .swatch_container .label_swatch {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -834,9 +837,12 @@ BODY INPUT[type=color]:disabled {
   color: var(--tc);
   padding: 1rem;
 }
-.alert .swatches_alert .label {
+.popup .swatches_popup .label {
   display: block;
   /* text-align: center; */
+}
+.popup .content_container {
+  position: relative;
 }
 
 .config {
@@ -857,10 +863,10 @@ BODY INPUT[type=color]:disabled {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.config .hello_modal {
+.config .hello_config {
   display: block;
 }
-.config .hello_modal .content_container {
+.config .hello_config .content_container {
   margin-top: 1rem;
 }
 .config .config_btn {
@@ -876,7 +882,7 @@ BODY INPUT[type=color]:disabled {
   fill: var(--tc_c);
   background: var(--fc);
 }
-.config .create_modal .inputs_controler {
+.config .create_config .inputs_controler {
   width: 100%;
   display: grid;
   grid-template-areas: "text text" "inp_num_1 check_bg" "inp_num_2 check_bg" "inp_grid inp_grid";
@@ -884,32 +890,32 @@ BODY INPUT[type=color]:disabled {
   -moz-column-gap: 1rem;
        column-gap: 1rem;
 }
-.config .create_modal .column_control {
+.config .create_config .column_control {
   grid-area: inp_num_1;
 }
-.config .create_modal .row_control {
+.config .create_config .row_control {
   grid-area: inp_num_2;
 }
-.config .create_modal .bg_check_control {
+.config .create_config .bg_check_control {
   grid-area: check_bg;
 }
-.config .create_modal .checkbox_control {
+.config .create_config .checkbox_control {
   padding-top: 0.5rem;
 }
-.config .create_modal .text_control {
+.config .create_config .text_control {
   grid-area: text;
 }
-.config .create_modal .btns_container {
+.config .create_config .btns_container {
   margin-bottom: 2rem;
 }
-.config .delete_modal .inputs_controler {
+.config .delete_config .inputs_controler {
   flex-direction: column;
   align-items: flex-start;
 }
-.config .delete_modal .inputs_controler .check_control {
+.config .delete_config .inputs_controler .check_control {
   width: 100%;
 }
-.config .delete_modal .inputs_controler .check_control .checkbox_control {
+.config .delete_config .inputs_controler .check_control .checkbox_control {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
