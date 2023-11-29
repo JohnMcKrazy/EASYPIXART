@@ -975,7 +975,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => (openening.style.display = none), 1200);
         }, 4000);
     };
-    /* closeOpening(); */
+    closeOpening();
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
 
     const themeBtn = selector(".theme_btn");
