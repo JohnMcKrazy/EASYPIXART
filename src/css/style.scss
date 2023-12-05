@@ -277,7 +277,7 @@ BODY {
     left: 0;
     background: var(--nvc_h);
     z-index: 50;
-    /* display: none; */
+    display: none;
     .container {
         position: absolute;
         top: 50%;
@@ -594,17 +594,8 @@ BODY {
 }
 .search_control {
     width: 100%;
-    @include flexDirection(row, space-between, center);
-
     INPUT {
         width: 100%;
-    }
-    .search_btn {
-        background: var(--fc);
-        font-weight: 600;
-        padding: 0.5rem 1rem;
-        color: var(--tc_c);
-        transition: var(--t_uf);
     }
 }
 .anim_icon_btn {
@@ -676,6 +667,7 @@ BODY {
         padding: 0.25rem;
     }
 }
+.gallery_item_searched,
 .gallery_item {
     width: 10rem;
     height: auto;
@@ -809,7 +801,13 @@ BODY {
         position: relative;
     }
 }
-
+/* .popup {
+    display: block;
+    opacity: 1;
+    .search_popup {
+        display: block;
+    }
+} */
 .config {
     display: block;
     opacity: 1;

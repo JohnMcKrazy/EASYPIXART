@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         navOpen: "translateY(0)",
         pixel_start_color: "",
         pixels_to_save: [],
+        search_param: "gallery",
     };
 
     //*^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ *//
@@ -78,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mainCanvasTitle = selector(".canvas_title");
     const mainCanvas = selector(".main_canvas");
 
+    const searchItemsContainer = selector(".searched_items_container");
     //¿ UTILS
     const updateStorage = () => {
         storageContent = JSON.parse(localStorage.getItem(storageName));
@@ -98,6 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement("div");
         div.textContent = inputValue;
         return div.innerHTML;
+    };
+    const properCase = (string) => {
+        return `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`;
     };
     const deleteChildElements = (parentElement) => {
         let child = parentElement.lastElementChild;
@@ -243,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
-    const createSwatch = (item) => {
+    const createSwatch = (item, container) => {
         const thisTemp = swatchTemplate.cloneNode(true);
         const thisBtn = thisTemp.querySelector(".swatch_item");
         const swatchContainer = thisTemp.querySelector(".swatch_container");
@@ -253,12 +258,12 @@ document.addEventListener("DOMContentLoaded", () => {
         swatchContainer.style.background = item.hexa_color;
         colorLabel.textContent = item.hexa_color;
         colorName.textContent = item.name;
-        swatchSavesFragment.append(thisBtn);
+        container.append(thisBtn);
     };
     const swatchesBtnsAction = () => {
         selectorAll(".swatch_item").forEach((itemColor) => {
             itemColor.addEventListener("click", () => {
-                popupWindowActions(close, "swatches_popup");
+                popupWindowActions(close, "search_popup");
                 const thisColor = itemColor.getAttribute("data-color");
                 console.log(thisColor);
                 colorPaletteInput.value = thisColor;
@@ -543,11 +548,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     selectorAll(".action_btn").forEach((btn) => {
         btn.addEventListener("click", () => {
+            selector(".inp_search_name").value = "";
+            const searchRef = btn.getAttribute("ref");
             const btnFrom = btn.getAttribute("data-from");
             const btnTo = btn.getAttribute("data-to");
             console.log(btnFrom);
             console.log(btnTo);
-            changePopup(btnFrom, btnTo);
+            console.log(searchRef);
+            deleteChildElements(searchItemsContainer);
+            if (searchRef === "swatches") {
+                pageActions.search_param = "swatches";
+                selector(".search_ref").textContent = "Muestras";
+                changePopup(btnFrom, btnTo);
+                const currentSwatches = storageContent.swatches;
+                if (currentSwatches.length >= 1) {
+                    currentSwatches.forEach((color) => {
+                        createSwatch(color, searchItemsContainer);
+                    });
+                    setTimeout(() => swatchesBtnsAction(), 200);
+                }
+            } else if (searchRef === "gallery") {
+                pageActions.search_param = "gallery";
+                configWindowActions(close, "gallery_config");
+                selector(".search_ref").textContent = "Galeria";
+                const currentGallery = storageContent.gallery;
+                if (currentGallery.length >= 1) {
+                    currentGallery.forEach((artItem) => {
+                        /* console.log(artItem); */
+                        let thisPixels = "";
+                        artItem.pixels.forEach((pixel) => {
+                            thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
+                        });
+                        searchItemsContainer.innerHTML += `<button type="button" class="gallery_item" id="${artItem.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artItem.columns} ${artItem.rows}">${thisPixels}</svg></div><span class="label_item">${artItem.art_name}</span></button>`;
+
+                        setTimeout(() => {
+                            popupWindowActions(open, "search_popup");
+                            const galleryBtn = selectorAll(".gallery_item");
+                            galleryBtn.forEach((btn) => {
+                                btn.addEventListener("click", () => {
+                                    updateStorage();
+                                    const btnId = btn.getAttribute("id");
+                                    const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                                    createArtCanvas(thisItem);
+                                    configWindowActions(close, "gallery_config");
+                                });
+                            });
+                        }, 500);
+                    });
+                }
+            }
         });
     });
     selector(".control_all_check").addEventListener("input", () => {
@@ -853,9 +902,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         deleteChildElements(popupSwatchesContainer);
                         selector(".swatches_popup").querySelector(".swatches_msg").style.display = none;
                         storageSwatches.forEach((color) => {
-                            createSwatch(color);
+                            createSwatch(color, popupSwatchesContainer);
                         });
-                        popupSwatchesContainer.append(swatchSavesFragment);
                         setTimeout(() => swatchesBtnsAction(), 200);
                     } else {
                         console.log("sin swatches");
@@ -935,7 +983,134 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+    const checkSearch = (e) => {
+        const currentSearch = pageActions.search_param;
+        const mySearch = e.target.value;
+        console.log(mySearch);
+        const swatchesList = storageContent.swatches;
+        const pixartList = storageContent.gallery;
 
+        const newSearch = [];
+        let whatType = "";
+        let properSearchName;
+        if (mySearch.toString().length >= 1) {
+            properSearchName = mySearch.toLowerCase();
+            deleteChildElements(searchItemsContainer);
+            switch (currentSearch) {
+                case "swatches":
+                    whatType = "Swatches";
+                    //! console.log(swatchesList);
+                    swatchesList.forEach((swatch) => {
+                        const swatchName = swatch.name;
+                        const swatchColor = swatch.hexa_color;
+                        const nameSplit = swatchName.split(" ");
+                        //! console.log(properSearchName);
+                        if (properSearchName === "") {
+                            console.log("Es un string vacio");
+                        } else {
+                            nameSplit.forEach((palabra) => {
+                                const includes = palabra.toLowerCase().includes(properSearchName);
+                                if (includes) {
+                                    if (!newSearch.includes(swatch)) {
+                                        newSearch.push(swatch);
+                                    }
+                                    //! console.log(artName, artDate);
+                                }
+                            });
+                        }
+                    });
+
+                    newSearch.forEach((color) => {
+                        createSwatch(color, searchItemsContainer);
+                    });
+                    setTimeout(() => {
+                        swatchesBtnsAction();
+                    }, 200);
+                    break;
+                case "gallery":
+                    whatType = "Gallery";
+                    pixartList.forEach((pixart) => {
+                        const artName = pixart.art_name;
+                        const artDate = pixart.date;
+                        const nameSplit = artName.split(" ");
+                        if (properSearchName === "") {
+                            console.log("Es un string vacio");
+                        } else {
+                            nameSplit.forEach((palabra) => {
+                                const includes = palabra.toLowerCase().includes(properSearchName);
+                                if (includes) {
+                                    if (!newSearch.includes(pixart)) {
+                                        newSearch.push(pixart);
+                                    }
+                                    //! console.log(artName, artDate);
+                                }
+                            });
+                        }
+                    });
+
+                    newSearch.forEach((item) => {
+                        console.log(item);
+                        let thisPixels = "";
+                        item.pixels.forEach((pixel) => {
+                            thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
+                        });
+                        searchItemsContainer.innerHTML += `<button type="button" class="gallery_item_searched" id="${item.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${item.columns} ${item.rows}">${thisPixels}</svg></div><span class="label_item">${item.art_name}</span></button>`;
+                    });
+                    break;
+            }
+
+            console.log(`Estas buscando ${whatType}`);
+            console.log(newSearch);
+        } else if (mySearch.toString().length === 0) {
+            properSearchName = mySearch.toString();
+            deleteChildElements(searchItemsContainer);
+            if (currentSearch === "swatches") {
+                const currentSwatches = storageContent.swatches;
+                if (currentSwatches.length >= 1) {
+                    currentSwatches.forEach((color) => {
+                        createSwatch(color, searchItemsContainer);
+                    });
+                    setTimeout(() => swatchesBtnsAction(), 200);
+                }
+            } else if (currentSearch === "gallery") {
+                const currentGallery = storageContent.gallery;
+                if (currentGallery.length >= 1) {
+                    currentGallery.forEach((artItem) => {
+                        /* console.log(artItem); */
+                        let thisPixels = "";
+                        artItem.pixels.forEach((pixel) => {
+                            thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
+                        });
+                        searchItemsContainer.innerHTML += `<button type="button" class="gallery_item" id="${artItem.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artItem.columns} ${artItem.rows}">${thisPixels}</svg></div><span class="label_item">${artItem.art_name}</span></button>`;
+
+                        setTimeout(() => {
+                            const galleryBtn = selectorAll(".gallery_item");
+                            galleryBtn.forEach((btn) => {
+                                btn.addEventListener("click", () => {
+                                    const btnId = btn.getAttribute("id");
+                                    const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                                    createArtCanvas(thisItem);
+                                    configWindowActions(close, "gallery_config");
+                                });
+                            });
+                        }, 500);
+                    });
+                }
+            }
+        }
+        setTimeout(() => {
+            const galleryBtn = selectorAll(".gallery_item_searched");
+            galleryBtn.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const btnId = btn.getAttribute("id");
+                    const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                    console.log(thisItem);
+                    createArtCanvas(thisItem);
+                    configWindowActions(close, "gallery_config");
+                });
+            });
+        }, 500);
+    };
     const setClipboard = (text) => {
         const type = "text/plain";
         const blob = new Blob([text], { type });
@@ -975,7 +1150,10 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => (openening.style.display = none), 1200);
         }, 4000);
     };
-    closeOpening();
+    selector(".inp_search_name").addEventListener("input", (e) => {
+        setTimeout(() => checkSearch(e), 500);
+    });
+    /* closeOpening(); */
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
 
     const themeBtn = selector(".theme_btn");
