@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //*^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ *//
     const swatchSavesFragment = $d.createDocumentFragment();
     const swatchTemplate = selector(".swatch_template").content;
+    const artItemsSavesFragment = $d.createDocumentFragment();
+    const artTemplate = selector(".art_template").content;
 
     const BODY = selector("body");
     const config = selector(".config");
@@ -245,24 +247,105 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
     const createSwatch = (item, container) => {
+        const thisName = item.name.replace(" ", "_");
+        console.log(thisName);
         const thisTemp = swatchTemplate.cloneNode(true);
-        const thisBtn = thisTemp.querySelector(".swatch_item");
+        const thisItem = thisTemp.querySelector(".swatch_item");
+        const thisCheck = thisTemp.querySelector(".swatch_item_check");
+        const thisGoToBtn = thisTemp.querySelector(".goTo_item_btn");
+        const thisEditBtn = thisTemp.querySelector(".edit_item_btn");
+        const thisDeleteBtn = thisTemp.querySelector(".delete_item_btn");
         const swatchContainer = thisTemp.querySelector(".swatch_container");
         const colorLabel = thisTemp.querySelector(".label_swatch");
         const colorName = thisTemp.querySelector(".label_name");
-        thisBtn.setAttribute("data-color", item.hexa_color);
+        thisGoToBtn.setAttribute("data-color", item.hexa_color);
+        thisGoToBtn.setAttribute("id", `goTo_${thisName}`);
+        thisEditBtn.setAttribute("data-color", item.hexa_color);
+        thisEditBtn.setAttribute("id", `edit_${thisName}`);
+        thisEditBtn.setAttribute("data-id", item.id);
+        thisDeleteBtn.setAttribute("data-color", item.hexa_color);
+        thisDeleteBtn.setAttribute("id", `delete_${thisName}`);
+        thisDeleteBtn.setAttribute("data-id", item.id);
+        thisCheck.setAttribute("data-id", item.id);
         swatchContainer.style.background = item.hexa_color;
         colorLabel.textContent = item.hexa_color;
         colorName.textContent = item.name;
-        container.append(thisBtn);
+        container.append(thisItem);
     };
-    const swatchesBtnsAction = () => {
-        selectorAll(".swatch_item").forEach((itemColor) => {
-            itemColor.addEventListener("click", () => {
-                popupWindowActions(close, "search_popup");
-                const thisColor = itemColor.getAttribute("data-color");
-                console.log(thisColor);
-                colorPaletteInput.value = thisColor;
+    const createArtItem = (item, container) => {
+        const thisTemp = artTemplate.cloneNode(true);
+        const thisItem = thisTemp.querySelector(".art_item");
+        const thisCheck = thisTemp.querySelector(".art_item_check");
+        const thisSvg = thisTemp.querySelector(".gallery_icon");
+        const thisGoToBtn = thisTemp.querySelector(".goTo_item_btn");
+        const thisEditBtn = thisTemp.querySelector(".edit_item_btn");
+        const thisDeleteBtn = thisTemp.querySelector(".delete_item_btn");
+        let thisPixels = "";
+        item.pixels.forEach((pixel) => {
+            thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
+        });
+        let thisViewBox = `0 0 ${item.columns} ${item.rows}`;
+        thisSvg.setAttribute("viewBox", thisViewBox);
+        thisSvg.innerHTML = thisPixels;
+        const colorName = thisTemp.querySelector(".label_name");
+        thisGoToBtn.setAttribute("data-id", item.id);
+        thisGoToBtn.setAttribute("id", `goTo_${item.id}`);
+        thisEditBtn.setAttribute("data-id", item.id);
+        thisEditBtn.setAttribute("id", `edit_${item.id}`);
+        thisDeleteBtn.setAttribute("data-id", item.id);
+        thisDeleteBtn.setAttribute("id", `delete_${item.id}`);
+        thisCheck.setAttribute("data-id", item.id);
+        thisItem.setAttribute("id", item.id);
+        colorName.textContent = item.art_name;
+        container.append(thisItem);
+    };
+
+    const itemBtnsAction = (type) => {
+        let thisItem;
+        selectorAll(".item_action_btn").forEach((btn) => {
+            let thisId = btn.getAttribute("id");
+            selector(`#${thisId}`).addEventListener("click", () => {
+                const thisBtn = selector(`#${thisId}`);
+                const btnAction = thisBtn.getAttribute("data-action");
+                const btnId = thisBtn.getAttribute("data-id");
+                if (btnAction === "goTo") {
+                    switch (type) {
+                        case "swatches":
+                            popupWindowActions(close, "search_popup");
+                            const thisColor = thisBtn.getAttribute("data-color");
+                            console.log(thisColor);
+                            colorPaletteInput.value = thisColor;
+                            break;
+                        case "gallery":
+                            const btnId = thisBtn.getAttribute("data-id");
+                            thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                            createArtCanvas(thisItem);
+                            configWindowActions(close, "gallery_config");
+                            break;
+                    }
+                } else if (btnAction === "edit") {
+                    switch (type) {
+                        case "swatches":
+                            thisItem = storageContent.swatches.filter((item) => item.id === btnId);
+                            console.log(thisItem[0].name);
+                            break;
+                        case "gallery":
+                            thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                            console.log(thisItem[0].art_name);
+                            break;
+                    }
+                } else if (btnAction === "delete") {
+                    switch (type) {
+                        case "swatches":
+                            thisItem = storageContent.swatches.filter((item) => item.id === btnId);
+                            console.log(thisItem[0].name);
+                            break;
+                        case "gallery":
+                            thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                            console.log(thisItem[0].art_name);
+                            break;
+                    }
+                }
             });
         });
     };
@@ -515,6 +598,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             storageSwatches.push({
                                 name: swatchName,
                                 hexa_color: pickerValue,
+                                id: createNewUniqueArray(8),
                             });
                             colorItemsCounter.textContent = storageSwatches.length;
                             console.log(storageContent, storageSwatches);
@@ -541,7 +625,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-    selectorAll(".action_btn").forEach((btn) => {
+    selectorAll(".search_btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             selector(".inp_search_name").value = "";
             const searchRef = btn.getAttribute("ref");
@@ -554,58 +638,30 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(searchRef);
             console.log(btnAction);
 
+            deleteChildElements(searchItemsContainer);
             if (searchRef === "swatches") {
                 changePopup(btnFrom, btnTo);
+                pageActions.search_param = searchRef;
+                selector(".search_ref").textContent = "Muestras";
+                const currentSwatches = storageContent.swatches;
+                if (currentSwatches.length >= 1) {
+                    currentSwatches.forEach((color) => {
+                        createSwatch(color, searchItemsContainer);
+                    });
+                }
             } else if (searchRef === "gallery") {
                 configWindowActions(close, "gallery_config");
-            }
-            if (btnAction === "search") {
-                deleteChildElements(searchItemsContainer);
-                if (searchRef === "swatches") {
-                    pageActions.search_param = searchRef;
-                    selector(".search_ref").textContent = "Muestras";
-                    const currentSwatches = storageContent.swatches;
-                    if (currentSwatches.length >= 1) {
-                        currentSwatches.forEach((color) => {
-                            createSwatch(color, searchItemsContainer);
-                        });
-                        setTimeout(() => swatchesBtnsAction(), 200);
-                    }
-                } else if (searchRef === "gallery") {
-                    popupWindowActions(open, "search_popup");
-                    pageActions.search_param = searchRef;
-                    selector(".search_ref").textContent = "Galeria";
-                    const currentGallery = storageContent.gallery;
-                    if (currentGallery.length >= 1) {
-                        currentGallery.forEach((artItem) => {
-                            let thisPixels = "";
-                            artItem.pixels.forEach((pixel) => {
-                                thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
-                            });
-                            searchItemsContainer.innerHTML += `<button type="button" class="gallery_item" id="${artItem.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artItem.columns} ${artItem.rows}">${thisPixels}</svg></div><span class="label_item">${artItem.art_name}</span></button>`;
-
-                            setTimeout(() => {
-                                const galleryBtn = selectorAll(".gallery_item");
-                                galleryBtn.forEach((btn) => {
-                                    btn.addEventListener("click", () => {
-                                        const btnId = btn.getAttribute("id");
-                                        const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
-                                        createArtCanvas(thisItem);
-                                        popupWindowActions(close, "search_popup");
-                                    });
-                                });
-                            }, 500);
-                        });
-                    }
-                }
-            } else if (btnAction === "edit") {
-                if (searchRef === "swatches") {
-                    console.log("pasando a modo edit - swatches");
-                } else if (searchRef === "gallery") {
-                    popupWindowActions(open, "edit_popup");
-                    console.log("pasando a modo edit - gallery");
+                popupWindowActions(open, "search_popup");
+                pageActions.search_param = searchRef;
+                selector(".search_ref").textContent = "Galeria";
+                const currentGallery = storageContent.gallery;
+                if (currentGallery.length >= 1) {
+                    currentGallery.forEach((artItem) => {
+                        createArtItem(artItem, searchItemsContainer);
+                    });
                 }
             }
+            setTimeout(() => itemBtnsAction(searchRef), 200);
         });
     });
     selector(".control_all_check").addEventListener("input", () => {
@@ -749,29 +805,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 case "gallery_btn":
                     const currentGallery = storageContent.gallery;
+
                     if (currentGallery.length >= 1) {
                         deleteChildElements(galleryContainer);
                         galleryEmptylabel.style.display = none;
                         currentGallery.forEach((artItem) => {
-                            /* console.log(artItem); */
-                            let thisPixels = "";
-                            artItem.pixels.forEach((pixel) => {
-                                thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
-                            });
-                            galleryContainer.innerHTML += `<button type="button" class="gallery_item" id="${artItem.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artItem.columns} ${artItem.rows}">${thisPixels}</svg></div><span class="label_item">${artItem.art_name}</span></button>`;
-
-                            setTimeout(() => {
-                                const galleryBtn = selectorAll(".gallery_item");
-                                galleryBtn.forEach((btn) => {
-                                    btn.addEventListener("click", () => {
-                                        const btnId = btn.getAttribute("id");
-                                        const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
-                                        createArtCanvas(thisItem);
-                                        configWindowActions(close, "gallery_config");
-                                    });
-                                });
-                            }, 500);
+                            createArtItem(artItem, galleryContainer);
                         });
+                        setTimeout(() => {
+                            itemBtnsAction("gallery");
+                            selectorAll(".art_item").forEach((item) => {
+                                let thisId = item.getAttribute("id");
+                                setTimeout(() => {
+                                    item.addEventListener("change", () => {
+                                        console.log(item);
+                                        if (item.check) {
+                                            console.log(thisId);
+                                        }
+                                    });
+                                }, 200);
+                            });
+                        }, 200);
                     } else {
                         galleryEmptylabel.style.display = block;
                     }
@@ -905,7 +959,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         storageSwatches.forEach((color) => {
                             createSwatch(color, popupSwatchesContainer);
                         });
-                        setTimeout(() => swatchesBtnsAction(), 200);
+                        setTimeout(() => itemBtnsAction("swatches"), 200);
                     } else {
                         console.log("sin swatches");
 
@@ -973,7 +1027,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (storageContent.alerts.refresh_alert === none) {
                         popupWindowActions(open, btnModal);
                     } else if (storageContent.alerts.refresh_alert === "checked") {
-                        const startColor = pageActions.pixel_start_color;
+                        let startColor = pageActions.pixel_start_color;
+                        console.log(startColor);
+                        if (startColor === "") {
+                            startColor = "transparent";
+                        }
                         console.log(startColor);
                         selectorAll(".main_pixel").forEach((pixel) => {
                             pixel.setAttribute("fill", startColor);
@@ -999,7 +1057,7 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteChildElements(searchItemsContainer);
             switch (currentSearch) {
                 case "swatches":
-                    whatType = "Swatches";
+                    whatType = "swatches";
                     //! console.log(swatchesList);
                     swatchesList.forEach((swatch) => {
                         const swatchName = swatch.name;
@@ -1024,15 +1082,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     newSearch.forEach((color) => {
                         createSwatch(color, searchItemsContainer);
                     });
-                    setTimeout(() => {
-                        swatchesBtnsAction();
-                    }, 200);
                     break;
                 case "gallery":
-                    whatType = "Gallery";
-                    pixartList.forEach((pixart) => {
-                        const artName = pixart.art_name;
-                        const artDate = pixart.date;
+                    whatType = "gallery";
+                    pixartList.forEach((artItem) => {
+                        const artName = artItem.art_name;
+                        const artDate = artItem.date;
                         const nameSplit = artName.split(" ");
                         if (properSearchName === "") {
                             console.log("Es un string vacio");
@@ -1040,8 +1095,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             nameSplit.forEach((palabra) => {
                                 const includes = palabra.toLowerCase().includes(properSearchName);
                                 if (includes) {
-                                    if (!newSearch.includes(pixart)) {
-                                        newSearch.push(pixart);
+                                    if (!newSearch.includes(artItem)) {
+                                        newSearch.push(artItem);
                                     }
                                     //! console.log(artName, artDate);
                                 }
@@ -1049,17 +1104,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     });
 
-                    newSearch.forEach((item) => {
-                        console.log(item);
-                        let thisPixels = "";
-                        item.pixels.forEach((pixel) => {
-                            thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
-                        });
-                        searchItemsContainer.innerHTML += `<button type="button" class="gallery_item_searched" id="${item.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${item.columns} ${item.rows}">${thisPixels}</svg></div><span class="label_item">${item.art_name}</span></button>`;
+                    newSearch.forEach((artItem) => {
+                        console.log(artItem);
+                        createArtItem(artItem, searchItemsContainer);
                     });
                     break;
             }
-
             console.log(`Estas buscando ${whatType}`);
             console.log(newSearch);
         } else if (mySearch.toString().length === 0) {
@@ -1071,46 +1121,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     currentSwatches.forEach((color) => {
                         createSwatch(color, searchItemsContainer);
                     });
-                    setTimeout(() => swatchesBtnsAction(), 200);
                 }
             } else if (currentSearch === "gallery") {
                 const currentGallery = storageContent.gallery;
                 if (currentGallery.length >= 1) {
                     currentGallery.forEach((artItem) => {
-                        /* console.log(artItem); */
-                        let thisPixels = "";
-                        artItem.pixels.forEach((pixel) => {
-                            thisPixels += `<rect width="1" height="1" x="${pixel.x}" y="${pixel.y}" fill="${pixel.fill}"></rect>`;
-                        });
-                        searchItemsContainer.innerHTML += `<button type="button" class="gallery_item" id="${artItem.id}"><div class="icon_container"><svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${artItem.columns} ${artItem.rows}">${thisPixels}</svg></div><span class="label_item">${artItem.art_name}</span></button>`;
-
-                        setTimeout(() => {
-                            const galleryBtn = selectorAll(".gallery_item");
-                            galleryBtn.forEach((btn) => {
-                                btn.addEventListener("click", () => {
-                                    const btnId = btn.getAttribute("id");
-                                    const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
-                                    createArtCanvas(thisItem);
-                                    configWindowActions(close, "gallery_config");
-                                });
-                            });
-                        }, 500);
+                        createArtItem(artItem, searchItemsContainer);
                     });
                 }
             }
         }
+
         setTimeout(() => {
-            const galleryBtn = selectorAll(".gallery_item_searched");
-            galleryBtn.forEach((btn) => {
-                btn.addEventListener("click", () => {
-                    const btnId = btn.getAttribute("id");
-                    const thisItem = storageContent.gallery.filter((item) => item.id === btnId);
-                    console.log(thisItem);
-                    createArtCanvas(thisItem);
-                    configWindowActions(close, "gallery_config");
-                });
-            });
-        }, 500);
+            itemBtnsAction(whatType);
+        }, 200);
     };
     const setClipboard = (text) => {
         const type = "text/plain";

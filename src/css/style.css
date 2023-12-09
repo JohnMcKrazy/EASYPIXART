@@ -373,11 +373,43 @@ BODY INPUT[type=color]:disabled {
   animation: transpAnim 1s ease-in-out infinite;
 }
 
-.swatch_item {
+.item {
+  position: relative;
   height: auto;
-  width: 6rem;
+  width: 10rem;
   background: var(--nvc);
   box-shadow: 1px 1px 1rem var(--is);
+}
+.item input[type=checkbox] {
+  position: absolute;
+  right: 0.25rem;
+  top: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--sc);
+}
+.item .label_name {
+  padding: 0.5rem;
+  color: var(--tc);
+  text-align: center;
+  -webkit-user-select: auto !important;
+     -moz-user-select: auto !important;
+          user-select: auto !important;
+}
+.item .btns_container {
+  padding-top: 0.5rem;
+}
+.item .item_action_btn {
+  padding: 0.5rem;
+}
+.item .edit_btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.swatch_item {
   -webkit-user-select: auto !important;
      -moz-user-select: auto !important;
           user-select: auto !important;
@@ -401,12 +433,10 @@ BODY INPUT[type=color]:disabled {
   background: var(--blackOff);
   color: var(--whiteOff);
 }
-.swatch_item .label_name {
+
+.art_item {
   padding: 0.5rem;
-  color: var(--tc);
-  -webkit-user-select: auto !important;
-     -moz-user-select: auto !important;
-          user-select: auto !important;
+  /* justify-self: center; */
 }
 
 .inputs_controler {
@@ -672,13 +702,15 @@ BODY INPUT[type=color]:disabled {
   animation: saveIconAnim 1000ms ease-in-out infinite alternate;
 }
 
-.action_btn {
+.item_action_btn,
+.search_btn {
   width: 2rem;
   height: 2rem;
   fill: var(--tc);
   transition: var(--t_f);
 }
-.action_btn:hover {
+.item_action_btn:hover,
+.search_btn:hover {
   fill: var(--midGray);
 }
 
@@ -702,26 +734,13 @@ BODY INPUT[type=color]:disabled {
   align-items: center;
 }
 
-.action_btns_container {
+.search_btn_container {
+  flex-direction: row;
+  justify-content: flex-start;
   margin-top: 1rem;
 }
-.action_btns_container .icon_container {
+.search_btn_container .icon_container {
   padding: 0.25rem;
-}
-
-.gallery_item_searched,
-.gallery_item {
-  width: 10rem;
-  height: auto;
-  padding: 0.5rem;
-  background: var(--nvc);
-  justify-self: center;
-}
-.gallery_item_searched .label_item,
-.gallery_item .label_item {
-  color: var(--tc);
-  text-align: center;
-  margin-top: 0.5rem;
 }
 
 .modal {
@@ -848,6 +867,7 @@ BODY INPUT[type=color]:disabled {
     opacity: 1;
     .search_popup {
         display: block;
+        opacity: 1;
     }
 } */
 .config {

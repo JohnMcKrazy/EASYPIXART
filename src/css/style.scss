@@ -366,11 +366,39 @@ BODY {
         animation: transpAnim 1s ease-in-out infinite;
     }
 }
-.swatch_item {
+.item {
+    position: relative;
     height: auto;
-    width: 6rem;
+    width: 10rem;
     background: var(--nvc);
     box-shadow: 1px 1px 1rem var(--is);
+    input[type="checkbox"] {
+        position: absolute;
+        right: 0.25rem;
+        top: 0.25rem;
+        width: 1rem;
+        height: 1rem;
+        accent-color: var(--sc);
+    }
+
+    .label_name {
+        padding: 0.5rem;
+        color: var(--tc);
+        text-align: center;
+        user-select: auto !important;
+    }
+
+    .btns_container {
+        padding-top: 0.5rem;
+    }
+    .item_action_btn {
+        padding: 0.5rem;
+    }
+    .edit_btns {
+        @include flexDirection(row, center, center);
+    }
+}
+.swatch_item {
     user-select: auto !important;
     .swatch_container {
         @include flex(center, center);
@@ -387,12 +415,10 @@ BODY {
             color: var(--whiteOff);
         }
     }
-
-    .label_name {
-        padding: 0.5rem;
-        color: var(--tc);
-        user-select: auto !important;
-    }
+}
+.art_item {
+    padding: 0.5rem;
+    /* justify-self: center; */
 }
 .inputs_controler {
     @include flexDirection(row, center, flex-start);
@@ -440,7 +466,6 @@ BODY {
         width: auto;
     }
 }
-
 .anim_arrow_bw {
     .arrow_step_1 {
         opacity: 0;
@@ -640,7 +665,8 @@ BODY {
         }
     }
 }
-.action_btn {
+.item_action_btn,
+.search_btn {
     width: 2rem;
     height: 2rem;
     fill: var(--tc);
@@ -661,23 +687,12 @@ BODY {
 .btn_container {
     @include flex(center, center);
 }
-.action_btns_container {
+.search_btn_container {
+    flex-direction: row;
+    justify-content: flex-start;
     margin-top: 1rem;
     .icon_container {
         padding: 0.25rem;
-    }
-}
-.gallery_item_searched,
-.gallery_item {
-    width: 10rem;
-    height: auto;
-    padding: 0.5rem;
-    background: var(--nvc);
-    justify-self: center;
-    .label_item {
-        color: var(--tc);
-        text-align: center;
-        margin-top: 0.5rem;
     }
 }
 .modal {
@@ -806,6 +821,7 @@ BODY {
     opacity: 1;
     .search_popup {
         display: block;
+        opacity: 1;
     }
 } */
 .config {
