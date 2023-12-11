@@ -232,14 +232,17 @@ BODY {
         background: var(--input_bg);
         padding: 0.5rem 1rem;
         border: none;
-        color: var(--tc);
+        color: var(--fc);
         font-size: var(--fs_s);
     }
 
     LABEL {
         font-size: var(--fs_s);
     }
-
+    INPUT[type="search"],
+    INPUT[type="text"] {
+        font-size: var(--fs_g);
+    }
     INPUT[type="color"]:disabled {
         cursor: not-allowed;
         filter: grayscale(0.8);
@@ -779,10 +782,14 @@ BODY {
         max-width: 400px;
     }
     .window_content {
-        display: block;
+        display: none;
     }
     P {
         text-align: center;
+    }
+    OL {
+        margin-top: 2rem;
+        list-style: circle;
     }
 }
 .popup {
@@ -791,6 +798,11 @@ BODY {
     H1 {
         color: var(--fc);
     }
+
+    .content_container {
+        position: relative;
+    }
+
     .save_swatch_popup {
         .swatch_container {
             position: relative;
@@ -812,18 +824,35 @@ BODY {
             /* text-align: center; */
         }
     }
-    .content_container {
-        position: relative;
+    .search_popup,
+    .edit_popup {
+        .input_controler {
+            margin-top: 1rem;
+            .input_control {
+                margin-top: 0.5rem;
+            }
+            LABEL {
+                display: inline-block;
+                text-align: center;
+                width: 100%;
+                font-size: var(--fs_n);
+            }
+        }
+    }
+    .search_popup {
+    }
+    .edit_popup {
+        P {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .original_item_name {
+            text-align: center;
+            color: var(--fc);
+            font-size: var(--fs_xl);
+        }
     }
 }
-/* .popup {
-    display: block;
-    opacity: 1;
-    .search_popup {
-        display: block;
-        opacity: 1;
-    }
-} */
 .config {
     display: block;
     opacity: 1;

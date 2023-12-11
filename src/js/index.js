@@ -200,20 +200,40 @@ document.addEventListener("DOMContentLoaded", () => {
             alert.style.display = none;
         }, 1000);
     };
-    const openAlert = (msg = "") => {
-        if (msg !== "") {
-            selector(".alert").querySelector("P").textContent = msg;
-        }
+    const openAlert = () => {
         alert.style.display = block;
         setTimeout(() => {
             alert.style.opacity = 1;
         }, 200);
     };
-    const changePopup = (popupFrom, popupTo) => {
+    const alertWindowActions = (action, window, msg = "", itemToDelete = []) => {
+        const thisWindow = selector(`.${window}`);
+        const thisMsg = thisWindow.querySelector("P");
+        if (action === open) {
+            console.log(window);
+            switch (window) {
+                case "delete_alert":
+                    msg = "¿Estas a punto de eliminar el siguiente item, quieres proceder?";
+                    console.log(itemToDelete);
+                    selector(".delete_alert").querySelector("ol").innerHTML = `<li>${itemToDelete.name}</li>`;
+                    break;
+            }
+            thisMsg.textContent = msg;
+            thisWindow.style.display = block;
+            openAlert();
+        } else if (action === close) {
+            closeAlert();
+            setTimeout(() => (thisWindow.style.display = none), 600);
+        }
+    };
+    const changePopup = (popupFrom, popupTo, msg = "") => {
         const from = selector(`.${popupFrom}`);
         const to = selector(`.${popupTo}`);
 
         from.style.display = none;
+        if (popupTo === "edit_popup") {
+            selector(`.${popupTo}`).querySelector(".original_item_name").textContent = msg;
+        }
         setTimeout(() => {
             to.style.display = block;
         }, 100);
@@ -230,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
             popup.style.display = none;
         }, 500);
     };
-    const popupWindowActions = (action, window) => {
+    const popupWindowActions = (action, window, msg = "") => {
         console.log(action);
         console.log(window);
 
@@ -239,9 +259,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (action === open) {
             openPopUp();
             thisWindow.style.display = block;
+            if (window === "edit_popup") {
+                selector(`.${window}`).querySelector(".original_item_name").textContent = msg;
+            }
         } else if (action === close) {
             closePopUp();
-            setTimeout(() => (thisWindow.style.display = none), 600);
+            setTimeout(() => {
+                if (window === "edit_popup") {
+                    selector(`.${window}`).querySelector(".input_text").value = "";
+                }
+                thisWindow.style.display = none;
+            }, 600);
         }
     };
 
@@ -296,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
         thisDeleteBtn.setAttribute("id", `delete_${item.id}`);
         thisCheck.setAttribute("data-id", item.id);
         thisItem.setAttribute("id", item.id);
-        colorName.textContent = item.art_name;
+        colorName.textContent = item.name;
         container.append(thisItem);
     };
 
@@ -308,6 +336,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const thisBtn = selector(`#${thisId}`);
                 const btnAction = thisBtn.getAttribute("data-action");
                 const btnId = thisBtn.getAttribute("data-id");
+                if (type === "swatches") {
+                    thisItem = storageContent.swatches.filter((item) => item.id === btnId);
+                } else if (type === "gallery") {
+                    thisItem = storageContent.gallery.filter((item) => item.id === btnId);
+                }
                 if (btnAction === "goTo") {
                     switch (type) {
                         case "swatches":
@@ -326,25 +359,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (btnAction === "edit") {
                     switch (type) {
                         case "swatches":
-                            thisItem = storageContent.swatches.filter((item) => item.id === btnId);
                             console.log(thisItem[0].name);
+                            changePopup("swatches_popup", "edit_popup", thisItem[0].name);
                             break;
                         case "gallery":
-                            thisItem = storageContent.gallery.filter((item) => item.id === btnId);
-                            console.log(thisItem[0].art_name);
+                            configWindowActions(close, "gallery_config");
+                            console.log(thisItem[0].name);
+                            setTimeout(() => {
+                                popupWindowActions(open, "edit_popup", thisItem[0].name);
+                            }, 600);
                             break;
                     }
+                    pageActions.edit_item = thisItem[0];
                 } else if (btnAction === "delete") {
                     switch (type) {
                         case "swatches":
-                            thisItem = storageContent.swatches.filter((item) => item.id === btnId);
-                            console.log(thisItem[0].name);
+                            popupWindowActions(close, "search_popup");
                             break;
                         case "gallery":
-                            thisItem = storageContent.gallery.filter((item) => item.id === btnId);
-                            console.log(thisItem[0].art_name);
+                            configWindowActions(close, "gallery_config");
                             break;
                     }
+                    setTimeout(() => {
+                        alertWindowActions(open, "delete_alert", "", thisItem[0]);
+                    }, 600);
+                    pageActions.edit_item = thisItem[0];
                 }
             });
         });
@@ -494,9 +533,34 @@ document.addEventListener("DOMContentLoaded", () => {
                     saveStorage();
                     break;
 
-                case "accept_alert":
-                    closeAlert();
+                case "basic_alert_accept":
+                case "delete_alert_cancel":
+                    alertWindowActions(close, btnModal);
+                    break;
+                case "delete_alert_accept":
+                    const thisId = pageActions.edit_item.id;
+                    console.log(thisId);
+                    const isInSwatches = storageContent.swatches.filter((item) => item.id === thisId);
+                    const isInGallery = storageContent.gallery.filter((item) => item.id === thisId);
+                    console.log(isInSwatches);
+                    console.log(isInGallery);
+                    let thisContainer = "";
+                    if (isInGallery.length === 1) {
+                        console.log("is in gallery");
+                        thisContainer = "gallery";
+                    } else if (isInSwatches.length === 1) {
+                        console.log("is in swatches");
+                        thisContainer = "swatches";
+                    }
+                    const newArray = storageContent[thisContainer].filter((item) => item.id !== thisId);
+                    console.log(newArray);
+                    storageContent[thisContainer] = newArray;
+                    saveStorage();
+                    if (thisContainer === "swatches") {
+                        selector(".items_counter").textContent = storageContent[thisContainer].length;
+                    }
 
+                    alertWindowActions(close, btnModal);
                     break;
 
                 case "accept_refresh":
@@ -529,7 +593,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     thisSaved.id = createNewUniqueArray(8);
                     thisSaved.date = createDataDate();
                     const galleryItems = storageContent.gallery;
-                    const searchUnknown = galleryItems.filter((item) => (item.art_name.toLowerCase().includes("unknown") ? item : false));
+                    const searchUnknown = galleryItems.filter((item) => (item.name.toLowerCase().includes("unknown") ? item : false));
                     console.log(searchUnknown);
                     if (saveArtNameInput.value === "" || saveArtNameInput.value.toLowerCase().includes("unknown")) {
                         let thisName = "";
@@ -541,31 +605,31 @@ document.addEventListener("DOMContentLoaded", () => {
                         const sameName = searchUnknown.length;
                         if (sameName >= 1) {
                             let thisSaved = pageActions.pixels_to_save;
-                            thisSaved.art_name = `${thisName.slice(0, 7)}_${sameName}`;
-                            thisSaved.art_name = `${thisName.slice(0, 7)}_${sameName}`;
-                            pageActions.art_name = `${thisName.slice(0, 7)}_${sameName}`;
+                            thisSaved.name = `${thisName.slice(0, 7)}_${sameName}`;
+                            thisSaved.name = `${thisName.slice(0, 7)}_${sameName}`;
+                            pageActions.name = `${thisName.slice(0, 7)}_${sameName}`;
                             mainCanvasTitle.textContent = `${thisName.slice(0, 7)}_${sameName}`;
                             console.log(thisSaved);
                             storageContent.gallery.push(thisSaved);
                         } else if (sameName === 0) {
                             let thisSaved = pageActions.pixels_to_save;
-                            thisSaved.art_name = "Unknown";
-                            thisSaved.art_name = "Unknown";
-                            pageActions.art_name = "Unknown";
+                            thisSaved.name = "Unknown";
+                            thisSaved.name = "Unknown";
+                            pageActions.name = "Unknown";
                             mainCanvasTitle.textContent = "Unknown";
                             console.log(thisSaved);
                             storageContent.gallery.push(thisSaved);
                         }
                         saveStorage();
                     } else if (saveArtNameInput.value !== "" && saveArtNameInput.value !== null) {
-                        let thisName = (thisSaved.art_name = sanitizeInput(saveArtNameInput.value).toLowerCase());
+                        let thisName = (thisSaved.name = sanitizeInput(saveArtNameInput.value).toLowerCase());
                         console.log(thisName);
-                        const searchName = galleryItems.filter((item) => (item.art_name.toLowerCase() === thisName || item.art_name === thisName ? item : false));
+                        const searchName = galleryItems.filter((item) => (item.name.toLowerCase() === thisName || item.name === thisName ? item : false));
                         console.log(searchName);
                         if (searchName.length >= 1) {
-                            openAlert("Ya tienes un item guardado con ese nombre, por favor escogue un nombre diferente");
+                            alertWindowActions(open, "basic_alert", "Ya tienes un item guardado con ese nombre, por favor escogue un nombre diferente");
                         } else {
-                            pageActions.art_name = sanitizeInput(saveArtNameInput.value);
+                            pageActions.name = sanitizeInput(saveArtNameInput.value);
                             mainCanvasTitle.textContent = sanitizeInput(saveArtNameInput.value);
                             console.log(thisSaved);
                             storageContent.gallery.push(thisSaved);
@@ -586,14 +650,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log(pickerValue);
 
                     if (swatchName === "") {
-                        openAlert("No puedes salvar tu muestra sin un nombre, por favor coloca uno antes de intentar salvarla");
+                        alertWindowActions(open, "basic_alert", "No puedes salvar tu muestra sin un nombre, por favor coloca uno antes de intentar salvarla");
                     } else {
                         const searchName = storageSwatches.find((item) => {
                             if (item.name === swatchName) return item;
                         });
                         console.log(searchName);
                         if (searchName) {
-                            openAlert("Ese nombre de muestra ya existe, por favor ingresa uno diferente");
+                            alertWindowActions(open, "basic_alert", "Ese nombre de muestra ya existe, por favor ingresa uno diferente");
                         } else {
                             storageSwatches.push({
                                 name: swatchName,
@@ -609,17 +673,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     break;
 
-                case "alert_swatch_name_accept":
                 case "search_popup_accept":
                 case "edit_popup_accept":
                     popupWindowActions(close, btnModal);
                     break;
+
                 case "canvas_create":
-                    closeAlert();
+                    alertWindowActions(close, "basic_alert");
                     setTimeout(() => {
                         configWindowActions(open, "create_config");
                         createDemoCanvas();
                     }, 50);
+
+                    break;
+                case "alert_delete_accept":
+                    alertWindowActions(close, btnModal);
+
+                    break;
+                case "alert_delete_cancel":
+                    alertWindowActions(close, btnModal);
+
+                    break;
+
+                case "edit_item_name_accept":
+                    const newName = sanitizeInput(selector(".inp_change_name").value);
+                    if (newName !== "") {
+                        const thisId = pageActions.edit_item.id;
+                        const thisName = pageActions.edit_item.name;
+                        console.log(thisId);
+                        const isInSwatches = storageContent.swatches.filter((item) => item.id === thisId);
+                        const isInGallery = storageContent.gallery.filter((item) => item.id === thisId);
+                        console.log(isInSwatches);
+                        console.log(isInGallery);
+                        let thisContainer = "";
+                        if (isInGallery.length === 1) {
+                            console.log("is in gallery");
+                            thisContainer = "gallery";
+                        } else if (isInSwatches.length === 1) {
+                            console.log("is in swatches");
+                            thisContainer = "swatches";
+                        }
+                        storageContent[thisContainer].forEach((item) => {
+                            if (thisName === newName) {
+                                alertWindowActions(open, "basic_alert", "Estas colocando el mismo nombre, si quieres mantenerlo cancela la acción o cierra la ventana");
+                            } else {
+                                if (item.id !== thisId) {
+                                    if (item.name === newName) {
+                                        alertWindowActions(open, "basic_alert", "Ese nombre ya existe, por favor elige un nuevo nombre");
+                                    }
+                                } else if (item.id === thisId) {
+                                    if (item.name !== newName) {
+                                        item.name = newName;
+                                        saveStorage();
+                                        popupWindowActions(close, "edit_popup");
+                                    }
+                                }
+                            }
+                        });
+                    } else if (newName === "") {
+                        alertWindowActions(open, "basic_alert", "Necesitas Colocar un nombre para poder hacer el cambio, si no cancele la operación");
+                    }
+
+                    break;
+                case "edit_item_name_cancel":
+                    popupWindowActions(close, "edit_popup");
 
                     break;
             }
@@ -800,14 +917,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         downloadBtn.href = url;
                         pageActions.pixels_to_save = { pixels: thisPixels };
                     } else {
-                        openAlert("Para poder acceder a esta funcionalidad primero tienes que crear un canvas");
+                        alertWindowActions(open, "basic_alert", "Para poder acceder a esta funcionalidad primero tienes que crear un canvas");
                     }
                     break;
                 case "gallery_btn":
                     const currentGallery = storageContent.gallery;
 
+                    deleteChildElements(galleryContainer);
                     if (currentGallery.length >= 1) {
-                        deleteChildElements(galleryContainer);
                         galleryEmptylabel.style.display = none;
                         currentGallery.forEach((artItem) => {
                             createArtItem(artItem, galleryContainer);
@@ -938,7 +1055,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             selector(".save_swatch_popup").querySelector(".swatch_container").style.background = colorPaletteInput.value;
                             selector(".save_swatch_popup").querySelector(".swatch_container").querySelector(".label_swatch").textContent = colorPaletteInput.value;
                         } else if (search.length >= 1) {
-                            openAlert(`Tienes Repetida esta muestra,la puedes encontrar con el nombre de "${search[0].name}".`);
+                            alertWindowActions(open, "basic_alert", `Tienes Repetida esta muestra,la puedes encontrar con el nombre de "${search[0].name}".`);
                             console.log("tienes repetido este color");
                         }
                     } else {
@@ -952,9 +1069,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "swatch_btn":
                     console.log(storageSwatches);
                     popupWindowActions(open, btnModal);
+
+                    deleteChildElements(popupSwatchesContainer);
                     if (storageSwatches.length >= 1) {
                         console.log("con swatches");
-                        deleteChildElements(popupSwatchesContainer);
                         selector(".swatches_popup").querySelector(".swatches_msg").style.display = none;
                         storageSwatches.forEach((color) => {
                             createSwatch(color, popupSwatchesContainer);
@@ -962,7 +1080,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         setTimeout(() => itemBtnsAction("swatches"), 200);
                     } else {
                         console.log("sin swatches");
-
                         selector(".swatches_popup").querySelector(".swatches_msg").style.display = block;
                     }
                     break;
@@ -991,7 +1108,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                     } else if (selector(`.${btnName}`).querySelector(".radio_input").checked && !selector(".main_svg")) {
                         console.log("No tienes are de trabajo dumbass");
-                        openAlert("Para poder acceder a esta funcionalidad primero tienes que crear un canvas");
+                        alertWindowActions(open, "basic_alert", "Para poder acceder a esta funcionalidad primero tienes que crear un canvas");
                     }
 
                     break;
@@ -1015,7 +1132,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             });
                         });
                     } else if (selector(`.${btnName}`).querySelector(".radio_input").checked && !selector(".main_svg")) {
-                        openAlert("Para poder acceder a esta funcionalidad primero tienes que crear un canvas");
+                        alertWindowActions(open, "basic_alert", "Para poder acceder a esta funcionalidad primero tienes que crear un canvas");
                         console.log("No tienes are de trabajo dumbass");
                     }
 
@@ -1086,7 +1203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "gallery":
                     whatType = "gallery";
                     pixartList.forEach((artItem) => {
-                        const artName = artItem.art_name;
+                        const artName = artitem.name;
                         const artDate = artItem.date;
                         const nameSplit = artName.split(" ");
                         if (properSearchName === "") {
