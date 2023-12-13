@@ -140,6 +140,7 @@ HTML {
     --nvc: rgb(245, 245, 245, 0.8);
 
     --nvc_h: rgb(240, 240, 240, 0.9);
+    --intro: rgb(240, 240, 240, 0.6);
     --nvc_f: rgb(240, 240, 240);
     --tc_m: rgb(25, 25, 25);
 }
@@ -159,6 +160,7 @@ HTML {
     --is: rgba(220, 220, 220, 0.25);
     --nvc: rgb(10, 10, 10, 0.8);
     --nvc_h: rgb(15, 15, 15, 0.9);
+    --intro: rgb(15, 15, 15, 0.6);
     --nvc_f: rgb(15, 15, 15);
     --tc_m: rgb(225, 225, 255);
 }
@@ -626,6 +628,9 @@ BODY {
         width: 100%;
     }
 }
+.delete_select_items {
+    display: none;
+}
 .anim_icon_btn {
     height: 3.5rem;
     width: auto;
@@ -669,7 +674,7 @@ BODY {
     }
 }
 .item_action_btn,
-.search_btn {
+.nav_btn {
     width: 2rem;
     height: 2rem;
     fill: var(--tc);
@@ -690,7 +695,7 @@ BODY {
 .btn_container {
     @include flex(center, center);
 }
-.search_btn_container {
+.search_btns_container {
     flex-direction: row;
     justify-content: flex-start;
     margin-top: 1rem;
@@ -762,6 +767,7 @@ BODY {
         background: var(--nvc_h);
     }
 }
+.intro,
 .alert,
 .popup {
     display: none;
@@ -773,6 +779,20 @@ BODY {
     right: 0;
     opacity: 0;
     transition: var(--t_m);
+}
+
+.intro {
+    position: fixed;
+    background: var(--intro);
+    z-index: 30;
+    .mask {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: block;
+        width: 4rem;
+        height: 4rem;
+    }
 }
 .alert {
     z-index: 30;

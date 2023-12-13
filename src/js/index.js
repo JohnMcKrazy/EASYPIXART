@@ -80,8 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const colorItemsCounter = selector(".items_counter");
     const mainCanvasTitle = selector(".canvas_title");
     const mainCanvas = selector(".main_canvas");
-
+    const swatchesPopup = selector(".swatches_popup");
     const searchItemsContainer = selector(".searched_items_container");
+    const deleteSelectItemsBtns = selectorAll(".delete_select_items");
     //¿ UTILS
 
     const saveStorage = () => {
@@ -168,6 +169,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return newId();
     };
     //¿ ACTIONS
+    swatchesPopup.addEventListener("change", () => {
+        const itemsCheck = selectorAll(".item_check");
+        const checkCount = itemsCheck.length;
+        let checkedSum = 0;
+        itemsCheck.forEach((check) => {
+            check.addEventListener("input", () => {
+                if (check.checked) {
+                    deleteSelectItemsBtns.forEach((btn) => (btn.style.display = block));
+                } else if (!check.checked) {
+                    deleteSelectItemsBtns.forEach((btn) => (btn.style.display = none));
+                }
+            });
+        });
+    });
     const closeConfig = () => {
         pageActions.config = close;
         config.style.opacity = 0;
@@ -341,6 +356,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (type === "gallery") {
                     thisItem = storageContent.gallery.filter((item) => item.id === btnId);
                 }
+
+                if (btnAction === "edit" || btnAction === "delete") {
+                    selector(".art_item_check").forEach((check) => {
+                        check.addEventListener("change", () => {
+                            if (check.checked) {
+                            }
+                        });
+                    });
+                }
+
                 if (btnAction === "goTo") {
                     switch (type) {
                         case "swatches":
@@ -416,7 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const createMainCanvas = (artName, columns, rows, fill) => {
         pageActions.artColumns = columns;
         pageActions.artRows = rows;
-        pageActions.art_name = artName;
+        pageActions.name = artName;
         mainCanvasTitle.textContent = artName;
         const currentColumns = pageActions.artColumns;
         const currentRows = pageActions.artRows;
@@ -479,6 +504,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                             break;
                         case "start":
+                            const introModal = selector(".intro");
+                            configWindowActions(close, "hello_config");
+                            setTimeout(() => {
+                                introModal.style.display = block;
+                                setTimeout(() => (introModal.style.opacity = 1), 200);
+                            }, 600);
                             break;
                     }
                     break;
@@ -922,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 case "gallery_btn":
                     const currentGallery = storageContent.gallery;
-
+                    deleteSelectItemsBtns.forEach((btn) => {});
                     deleteChildElements(galleryContainer);
                     if (currentGallery.length >= 1) {
                         galleryEmptylabel.style.display = none;
@@ -1024,6 +1055,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("close config actions");
                 configWindowActions(close, btnModal);
             }
+            selectorAll(".item_check").forEach((check) => {
+                if (check.checked) {
+                    check.setAttribute("checked", false);
+                }
+            });
         });
     });
     selectorAll(".input_number").forEach((input) => {
@@ -1073,14 +1109,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     deleteChildElements(popupSwatchesContainer);
                     if (storageSwatches.length >= 1) {
                         console.log("con swatches");
-                        selector(".swatches_popup").querySelector(".swatches_msg").style.display = none;
+                        swatchesPopup.querySelector(".swatches_msg").style.display = none;
                         storageSwatches.forEach((color) => {
                             createSwatch(color, popupSwatchesContainer);
                         });
                         setTimeout(() => itemBtnsAction("swatches"), 200);
                     } else {
                         console.log("sin swatches");
-                        selector(".swatches_popup").querySelector(".swatches_msg").style.display = block;
+                        swatchesPopup.querySelector(".swatches_msg").style.display = block;
                     }
                     break;
                 case "draw_btn":

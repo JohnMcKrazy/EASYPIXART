@@ -118,16 +118,33 @@
 
                     <div class="content_container">
                         <h1 class="title">Muestras de color</h1>
-                        <div class="btn_container search_btn_container">
-                            <button type="button" class="search_btn" data-from="swatches_popup" data-to="search_popup" ref="swatches" data-action="search">
-                                <div class="icon_container">
-                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path
-                                            d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
-                                        ></path>
-                                    </svg>
-                                </div>
-                            </button>
+                        <div class="btns_container">
+                            <div class="btns_container search_btns_container">
+                                <button type="button" class="nav_btn search_btn" data-from="swatches_popup" data-to="search_popup" ref="swatches" data-action="search">
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path
+                                                d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </button>
+                                <button type="button" class="nav_btn select_all_btn" ref="swatches" data-action="search">
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path
+                                                class="cls-1"
+                                                d="M4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM5 5V19H19V5H5ZM11.0026 16L6.75999 11.7574L8.17421 10.3431L11.0026 13.1716L16.6595 7.51472L18.0737 8.92893L11.0026 16Z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="btn_container">
+                                <button class="btn delete_select_items" ref="delete_select_items" data-type="swatches">
+                                    <span class="label_btn">Eliminar Seleccionados</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="items_container swatches_container popup_swatches_container"></div>
@@ -414,16 +431,31 @@
                     </button>
                     <div class="content_container">
                         <h1 class="title">Galeria</h1>
-                        <div class="btn_container search_btn_container">
-                            <button type="button" class="search_btn" data-from="gallery_config" data-to="search_popup" ref="gallery" data-action="search">
-                                <div class="icon_container">
-                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path
-                                            d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
-                                        ></path>
-                                    </svg>
-                                </div>
-                            </button>
+                        <div class="btns_container">
+                            <div class="btns_container search_btns_container">
+                                <button type="button" class="nav_btn search_btn" data-from="gallery_config" data-to="search_popup" ref="gallery" data-action="search">
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path
+                                                d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </button>
+                                <button type="button" class="nav_btn select_all_btn" ref="gallery" data-action="search">
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path
+                                                class="cls-1"
+                                                d="M4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM5 5V19H19V5H5ZM11.0026 16L6.75999 11.7574L8.17421 10.3431L11.0026 13.1716L16.6595 7.51472L18.0737 8.92893L11.0026 16Z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="btn_container">
+                                <button type="button" class="btn delete_select_items" ref="delete_select_items" data-type="gallery"><span class="label_btn">Eliminar Seleccionados</span></button>
+                            </div>
                         </div>
                         <div class="items_container gallery_container"></div>
                         <span class="alert_msg_items gallery_msg">Vacio</span>
@@ -461,6 +493,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="modal intro">
+            <span class="mask"></span>
         </div>
         <nav class="nav top_nav palette_nav">
             <div class="nav_container palette_container">
@@ -601,7 +637,7 @@
     </body>
     <template class="swatch_template">
         <article type="button" class="swatch_item item">
-            <input type="checkbox" class="swatch_item_check" data-name="" />
+            <input type="checkbox" class="item_check swatch_item_check" data-name="swatch" />
             <div class="swatch_container">
                 <span class="label_swatch"> </span>
             </div>
@@ -639,7 +675,7 @@
     </template>
     <template class="art_template">
         <article type="button" class="art_item item">
-            <input type="checkbox" class="art_item_check" data-name="" />
+            <input type="checkbox" class="item_check art_item_check" data-name="art" />
             <div class="art_container icon_container">
                 <svg class="gallery_icon icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0"></svg>
             </div>
