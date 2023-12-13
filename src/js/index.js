@@ -357,15 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     thisItem = storageContent.gallery.filter((item) => item.id === btnId);
                 }
 
-                if (btnAction === "edit" || btnAction === "delete") {
-                    selector(".art_item_check").forEach((check) => {
-                        check.addEventListener("change", () => {
-                            if (check.checked) {
-                            }
-                        });
-                    });
-                }
-
                 if (btnAction === "goTo") {
                     switch (type) {
                         case "swatches":
