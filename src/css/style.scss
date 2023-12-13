@@ -810,6 +810,10 @@ BODY {
     OL {
         margin-top: 2rem;
         list-style: circle;
+        LI {
+            color: var(--fc);
+            font-size: var(--fs_xl);
+        }
     }
 }
 .popup {

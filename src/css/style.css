@@ -862,6 +862,10 @@ BODY INPUT[type=color]:disabled {
   margin-top: 2rem;
   list-style: circle;
 }
+.alert OL LI {
+  color: var(--fc);
+  font-size: var(--fs_xl);
+}
 
 .popup {
   background: var(--nvc_h);

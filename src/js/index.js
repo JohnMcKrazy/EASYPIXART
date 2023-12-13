@@ -390,7 +390,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (btnAction === "delete") {
                     switch (type) {
                         case "swatches":
-                            popupWindowActions(close, "search_popup");
+                            if (selector(".search_popup").style.display === block) {
+                                popupWindowActions(close, "search_popup");
+                            } else if (selector(".swatches_popup").style.display === block) {
+                                popupWindowActions(close, "swatches_popup");
+                            }
                             break;
                         case "gallery":
                             configWindowActions(close, "gallery_config");
