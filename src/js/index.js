@@ -452,13 +452,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const createArtCanvas = (item) => {
         console.log(item);
-        const { columns, rows, art_name, pixels, id } = item[0];
-        console.log(columns, rows, art_name, pixels);
+        const { columns, rows, name, pixels, id } = item[0];
+        console.log(columns, rows, name, pixels);
 
         pageActions.artColumns = columns;
         pageActions.artRows = rows;
-        pageActions.art_name = art_name;
-        mainCanvasTitle.textContent = art_name;
+        pageActions.name = name;
+        mainCanvasTitle.textContent = name;
 
         let thisPixels = "";
         const newSvg = createSvg("main_svg", parseInt(columns), parseInt(rows));
@@ -881,7 +881,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         let codeColors = [];
                         const thisPixels = [];
                         const thisColors = [];
-                        saveArtNameInput.value = pageActions.art_name;
+                        saveArtNameInput.value = pageActions.name;
                         const svgPixels = selector(".main_svg").children;
                         console.log(svgPixels);
 
