@@ -1328,7 +1328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     selector(".inp_search_name").addEventListener("input", (e) => {
         setTimeout(() => checkSearch(e), 500);
     });
-    /* closeOpening(); */
+    closeOpening();
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
 
     const themeBtn = selector(".theme_btn");
