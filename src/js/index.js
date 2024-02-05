@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     break;
                 case "download_art":
-                    configWindowActions(close, "save_modal");
+                    configWindowActions(close, btnModal);
                     pageActions.config = close;
                     break;
 
