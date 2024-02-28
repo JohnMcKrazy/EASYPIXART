@@ -269,6 +269,7 @@ BODY INPUT[type=color]:disabled {
   left: 0;
   background: var(--nvc_h);
   z-index: 50;
+  display: none;
 }
 .opening .container {
   position: absolute;
@@ -836,11 +837,7 @@ BODY INPUT[type=color]:disabled {
 }
 .intro .mask {
   position: absolute;
-  top: 0;
-  right: 0;
   display: block;
-  width: 4rem;
-  height: 4rem;
 }
 
 .alert {

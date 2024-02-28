@@ -282,6 +282,7 @@ BODY {
     left: 0;
     background: var(--nvc_h);
     z-index: 50;
+
     .container {
         position: absolute;
         top: 50%;
@@ -325,6 +326,7 @@ BODY {
             animation: loader 1000ms linear 2500ms infinite forwards;
         }
     }
+    display: none;
 }
 .frcc {
     @include flexDirection(row, center, center);
@@ -786,11 +788,7 @@ BODY {
     z-index: 30;
     .mask {
         position: absolute;
-        top: 0;
-        right: 0;
         display: block;
-        width: 4rem;
-        height: 4rem;
     }
 }
 .alert {

@@ -499,8 +499,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                             break;
                         case "start":
+                            const menuBtnContainer = selector(".menu_nav");
                             const introModal = selector(".intro");
                             configWindowActions(close, "hello_config");
+                            menuBtnContainer.style.zIndex = 100;
+                            /* const newWindow = '<svg class="mask" id="mask" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"></svg>';
+                            introModal.innerHTML = newWindow;
+                            const maskSvg = introModal.querySelector(".mask");
+                            maskSvg.innerHTML = '<rect class="mask_window" width="1" height="1" x="0" y="0" fill="white"></rect>';
+                            maskSvg.style.width = menuBtnContainer.getBoundingClientRect().width + 4 + "px";
+                            maskSvg.style.height = menuBtnContainer.getBoundingClientRect().height + 4 + "px";
+                            maskSvg.innerHTML = '<rect class="mask_window" width="1" height="1" x="0" y="0" fill="white"></rect>';
+                            maskSvg.style.top = menuBtnContainer.getBoundingClientRect().top + 2 + "px";
+                            maskSvg.style.right = menuBtnContainer.getBoundingClientRect().right + 2 - (menuBtnContainer.getBoundingClientRect().width + 4) + "px"; */
                             setTimeout(() => {
                                 introModal.style.display = block;
                                 setTimeout(() => (introModal.style.opacity = 1), 200);
@@ -1328,7 +1339,7 @@ document.addEventListener("DOMContentLoaded", () => {
     selector(".inp_search_name").addEventListener("input", (e) => {
         setTimeout(() => checkSearch(e), 500);
     });
-    closeOpening();
+    /* closeOpening(); */
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
 
     const themeBtn = selector(".theme_btn");
