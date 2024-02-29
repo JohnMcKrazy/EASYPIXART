@@ -282,6 +282,7 @@ BODY {
     left: 0;
     background: var(--nvc_h);
     z-index: 50;
+    transition: all 1000ms ease;
 
     .container {
         position: absolute;
@@ -294,6 +295,7 @@ BODY {
     }
     .logo {
         height: auto;
+        color: var(--tc);
     }
     .loader {
         @include flexDirection(row, space-between, center);
@@ -326,6 +328,12 @@ BODY {
             animation: loader 1000ms linear 2500ms infinite forwards;
         }
     }
+    /* display: none; */
+}
+.opacity_out {
+    opacity: 0;
+}
+.display_out {
     display: none;
 }
 .frcc {

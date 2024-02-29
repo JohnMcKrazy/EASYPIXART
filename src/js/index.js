@@ -266,11 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 500);
     };
     const popupWindowActions = (action, window, msg = "") => {
-        console.log(action);
-        console.log(window);
-
         const thisWindow = selector(`.${window}`);
-        console.log(thisWindow);
         if (action === open) {
             openPopUp();
             thisWindow.style.display = block;
@@ -1139,13 +1135,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 pixel.setAttribute("fill", pixelColor);
                             });
 
-                            pixel.addEventListener("pointerdown", (e) => {
-                                console.log(e);
+                            pixel.addEventListener("pointerdown", () => {
                                 pixel.setAttribute("fill", colorPaletteInput.value);
                                 pixel.setAttribute("data-color", colorPaletteInput.value);
-                            });
-                            pixel.addEventListener("pointerup", (e) => {
-                                console.log(e);
                             });
                         });
                     } else if (selector(`.${btnName}`).querySelector(".radio_input").checked && !selector(".main_svg")) {
@@ -1332,14 +1324,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeOpening = () => {
         setTimeout(() => {
             const openening = selector(".opening");
-            openening.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 1000, easing: "linear", fill: "forwards" });
-            setTimeout(() => (openening.style.display = none), 1200);
-        }, 4000);
+            openening.classList.add("opacity_out");
+            setTimeout(() => openening.classList.add("display_out"), 1200);
+        }, 3000);
     };
     selector(".inp_search_name").addEventListener("input", (e) => {
         setTimeout(() => checkSearch(e), 500);
     });
-    /* closeOpening(); */
+    closeOpening();
     //*!  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
 
     const themeBtn = selector(".theme_btn");

@@ -269,7 +269,8 @@ BODY INPUT[type=color]:disabled {
   left: 0;
   background: var(--nvc_h);
   z-index: 50;
-  display: none;
+  transition: all 1000ms ease;
+  /* display: none; */
 }
 .opening .container {
   position: absolute;
@@ -285,6 +286,7 @@ BODY INPUT[type=color]:disabled {
 }
 .opening .logo {
   height: auto;
+  color: var(--tc);
 }
 .opening .loader {
   display: flex;
@@ -318,6 +320,14 @@ BODY INPUT[type=color]:disabled {
 }
 .opening .loader .item_6 {
   animation: loader 1000ms linear 2500ms infinite forwards;
+}
+
+.opacity_out {
+  opacity: 0;
+}
+
+.display_out {
+  display: none;
 }
 
 .frcc {
